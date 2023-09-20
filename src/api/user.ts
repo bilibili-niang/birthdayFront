@@ -17,4 +17,13 @@ export default {
         })
     },
 
+    // 登录
+    async login(params: any) {
+        return http({
+            url: '/wx/login',
+            method: 'POST',
+            data: params
+        })
+    }
+
 }

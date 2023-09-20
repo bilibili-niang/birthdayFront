@@ -6,7 +6,7 @@ import user from "@/api/user";
 
 // 微信小程序代理地址
 // baseUrl
-export const baseUrl: String = `http://localhost:89`;
+export const baseUrl: String = `http://localhost:8080`;
 
 
 export const http = <T>(options: UniApp.RequestOptions) => {

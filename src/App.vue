@@ -8,6 +8,7 @@ onShow(() => {
 onHide(() => {
 });
 </script>
-<style>
+<style lang="scss">
+
 
 </style>

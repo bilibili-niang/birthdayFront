@@ -11,20 +11,14 @@ export default defineConfig({
             less: {
                 javascriptEnabled: true,
                 // @ts-ignore
-                additionalData: `@import "${path.resolve(__dirname, 'src/static/css/common.less')}";@import "${path.resolve(__dirname, 'src/static/css/variable.less')}";`
-            }
+                // additionalData: `@import "${path.resolve(__dirname, 'src/static/css/common.less')}";@import "${path.resolve(__dirname, 'src/static/css/variable.less')};`
+            },
         }
     },
     server: {
         https: false,
         proxy: {
             // TODO h5开发把下面的配置打开
-            /*'/api': {
-                target: '',
-                changeOrigin: true,
-                ws: true,
-                rewrite: (path) => path.replace(/^\/api/, "")
-            }*/
         },
     }
 });
