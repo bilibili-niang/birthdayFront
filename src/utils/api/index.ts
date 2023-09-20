@@ -1,15 +1,38 @@
-// api请求
-import type {Data} from "@/types/requestData";
-// @ts-ignore
-import {useMemberStore} from '@/store/index'
-import user from "@/api/user";
+import {useMemberStore} from "@/stores";
+import home from "./home";
+import type {Data} from "@/types/data";
+import env from "./env";
+import events from "./events";
+import user from "@/utils/api/user";
 
-// 微信小程序代理地址
-// baseUrl
-export const baseUrl: String = `http://localhost:8080`;
+// 服务器开发
+export const baseUrl: String = `https://blog.icestone.work`;
+// export const baseUrl: String = `http://localhost:89`;
+
+// 添加拦截器
+const httpInterceptor = {
+    // 拦截前触发
+    invoke(options: UniApp.RequestOptions) {
+        options.header = {
+            ...options.header,
+            'source-client': 'miniapp',
+        }
+        // 添加token:
+        const memberStore = useMemberStore()
+        const token = memberStore.profile?.token
+        if (token) {
+            options.header.Authorization = token
+        }
+        // 请求超时,默认60s
+        options.timeout = 60000;
+    }
+}
+uni.addInterceptor('request', httpInterceptor)
+uni.addInterceptor('uploadFile', httpInterceptor)
 
 
 export const http = <T>(options: UniApp.RequestOptions) => {
+    // @date 2023/9/5 @time 10:35 , @author 张嘉凯
     // TODO 微信小程序开发把下面的配置打开
     // @ts-ignore
     options.url = options.url.replace('/api', baseUrl)
@@ -45,28 +68,10 @@ export const http = <T>(options: UniApp.RequestOptions) => {
         })
     })
 }
-
-const httpInterceptor = {
-    // 拦截前触发
-    invoke(options: UniApp.RequestOptions) {
-        options.header = {
-            ...options.header,
-        }
-        // 添加token:
-        const memberStore = useMemberStore()
-        const token = memberStore.profile?.token
-        if (token) {
-            options.header.Authorization = token
-        }
-        // 请求超时,默认60s
-        options.timeout = 60000;
-    }
-}
-
-uni.addInterceptor('request', httpInterceptor)
-uni.addInterceptor('uploadFile', httpInterceptor)
-
 export default {
     baseUrl,
+    ...home,
+    ...env,
+    ...events,
     ...user
 }

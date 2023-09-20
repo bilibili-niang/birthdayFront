@@ -10,5 +10,4 @@ pinia.use(persist)
 export default pinia
 
 // 模块统一导出
-// @ts-ignore
 export * from './modules/member'

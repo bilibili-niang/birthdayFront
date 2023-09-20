@@ -1,11 +1,114 @@
-// css常用类/公共类
+.padding-lr-10 {
+  padding-left: 10rpx;
+  padding-right: 10rpx;
+}
+
+.padding-lr-20 {
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+}
+
+// margin left right
+.margin-lr-10 {
+  margin-left: 10rpx;
+  margin-right: 10rpx;
+}
+
+.margin-lr-20 {
+  margin-left: 20rpx;
+  margin-right: 20rpx;
+}
+
+.margin-lr-30 {
+  margin-left: 30rpx;
+  margin-right: 30rpx;
+}
+
+// 容器
+.container {
+  .padding-lr-20();
+}
+
+.flex-row(@direction: row) {
+  display: flex;
+  flex-direction: @direction;
+}
+
+// pop
+/deep/ .popupLim {
+  .flex-row(column);
+  .padding-lr-20();
+  background: @bacColor;
+}
+
+.icon {
+  font-size: @font-s;
+  font-weight: bold;
+  background: @themeColor-heightLight;
+  border-radius: @radio-m;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  width: 70rpx;
+  height: 70rpx;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: @margin-m;
+}
+
+.title {
+  font-size: @font-m;
+  font-weight: normal;
+  border-bottom-color: @themeActiveColor 1px solid !important;
+  color: @fontColor;
+  margin-bottom: @margin-m;
+}
+
+.time {
+  font-size: @font-m;
+  color: @fontColor;
+  margin-bottom: @margin-m;
+}
+
+.des {
+  font-size: @font-m;
+  color: @fontColor;
+}
+
+.bigTitle {
+  font-size: @font-l;
+  font-weight: bold;
+}
+
+/deep/ button {
+  border-radius: @radio-l;
+  color: @fontColor;
+  background: @bacColor;
+  border-bottom: 1px dashed @themeColor;
+}
+
+//tag的边框颜色
+/deep/ .uni-tag {
+  border-color: @borderColor;
+}
+
+.red {
+  color: #dd524d;
+}
 
 .mainBtn {
-  color: @themeColor;
-  border-radius: @radio-n;
-  background: @bac;
-  padding: @padding-s @padding-n;
-  margin: @margin-s;
+  z-index: 10;
+  color: @fontColor;
+  border: @themeActiveColor 1px solid;
+  padding: 10rpx;
+  border-radius: @radio-ls;
   width: fit-content;
-  fonst-size: @fontsize-n;
 }
+
+.markdown {
+  img {
+    max-width: 90vw;
+  }
+}
+
+

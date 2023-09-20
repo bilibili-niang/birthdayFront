@@ -1,6 +1,6 @@
+import type {LoginResult} from '@/types/member'
 import {defineStore} from 'pinia'
 import {ref} from 'vue'
-import type {LoginResult} from "@/types/requestData";
 
 // 定义 Store
 export const useMemberStore = defineStore(
