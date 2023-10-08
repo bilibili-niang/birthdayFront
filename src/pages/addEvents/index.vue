@@ -81,10 +81,7 @@
         </view>
       </view>
     </view>
-
-
   </view>
-  <tabBar/>
 </template>
 
 <script setup lang="ts">

@@ -4,32 +4,34 @@
   <view class="container">
     <recommendMarkdown :list="loopItem" :activeIndex="activeIndex"></recommendMarkdown>
     <!--分类-->
-    <classify :item="classifyItem"></classify>
+    <!--    <classify :item="classifyItem"></classify>-->
 
+    <!--展示联系人生日列表-->
     <view class="description">
-      <view class="item">
-        <view class="left">
-          title
+      <view class="itemLim">
+        <view class="item" v-for="(item,index) in userList" :key="index">
+
+          <!-- <uni-section title="通栏卡片" type="line">-->
+          <uni-card :title="item.name" sub-title="副标题" :extra="'还有n天'" :thumbnail="item.avatar">
+            <text>{{ item.birthday }}</text>
+          </uni-card>
+
         </view>
-        <view class="right">
-          {{ randomOne?.title }}
-        </view>
+
       </view>
     </view>
-    <view class="content" v-html="content">
-    </view>
   </view>
-  <tabBar/>
 </template>
 
 <script setup lang="ts">
 import CustomNavBar from "@/pages/index/components/customNavBar.vue";
 import IceSwiper from "./components/iceSwiper.vue";
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 import api from "@/utils/api";
 import RecommendMarkdown from "@/pages/index/components/recommendMarkdown.vue";
 import Classify from "@/pages/index/components/classify.vue";
 import {onPullDownRefresh} from "@dcloudio/uni-app";
+import dayjs from "dayjs";
 
 let loopItem = ref<any>([])
 const activeIndex = ref(0)
@@ -42,14 +44,10 @@ const content = ref('')
 
 // 下拉触发获取随机文章
 onPullDownRefresh(() => {
-  random()
 })
 
 // 分类列表
 const classifyItem = ref<any>([])
-
-// 随机的一条数据
-const randomOne = ref()
 
 // 初始化方法
 const init = async () => {
@@ -58,17 +56,23 @@ const init = async () => {
   console.log(loopItem)
   const tags = await api.allTags()
   classifyItem.value = tags.result
-  random()
 }
 
-const random = async () => {
-  const random = await api.getRandomOne()
-  randomOne.value = random.result
-  const contentTemp = await api.getMarkdownContent({id: randomOne.value.id})
-  if (contentTemp.success) {
-    content.value = contentTemp.result + ''
-  }
-}
+let userList = reactive([
+  {
+    name: '张三',
+    avatar: '/static/images/avatar.png',
+    birthday: dayjs().format('YYYY-MM-DD'),
+    icon: '/static/images/icon_user.png',
+  },
+  {
+    name: '李四',
+    avatar: '/static/images/avatar.png',
+    birthday: dayjs().format('YYYY-MM-DD'),
+    icon: '/static/images/icon_user.png',
+  },
+])
+
 
 init()
 </script>
@@ -92,12 +96,21 @@ init()
 
 .description {
   margin-bottom: @margin-l;
-}
 
-.item {
-  .flex-row();
-  width: 100%;
-  justify-content: space-evenly;
-}
+  .itemLim {
+    display: flex;
+    flex-direction: column;
 
+    .item {
+      display: flex;
+      flex-direction: column;
+
+      /deep/ .uni-card {
+        padding: 0;
+      }
+
+
+    }
+  }
+}
 </style>

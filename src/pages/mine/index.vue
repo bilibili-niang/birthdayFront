@@ -8,10 +8,7 @@
     <view class="data">
       {{ code }}
     </view>
-
-
   </view>
-  <tabBar/>
 </template>
 
 <script setup lang="ts">
