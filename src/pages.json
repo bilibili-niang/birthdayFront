@@ -45,6 +45,22 @@
       }
     },
     {
+      "path": "pages/discovery/index",
+      "style": {
+        "navigationBarTitleText": "发现",
+        "enablePullDownRefresh": true,
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/autonomic/index",
+      "style": {
+        "navigationBarTitleText": "自律",
+        "enablePullDownRefresh": true,
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/list/index",
       "style": {
         "navigationBarTitleText": "列表",
@@ -68,25 +84,29 @@
     "navigationBarTitleText": "uni-app",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "backgroundColor": "#ffffff",
+    "color": "#666666",
+    "selectedColor": "#ff4437",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/autonomic/index",
+        "text": "自律"
+      },
+      {
+        "pagePath": "pages/discovery/index",
+        "text": "发现"
+      },
+      {
+        "pagePath": "pages/mine/index",
+        "text": "我的"
+      }
+    ]
   }
-    "tabBar": {
-      "backgroundColor": "#ffffff",
-      "color": "#666666",
-      "selectedColor": "#ff4437",
-      "borderStyle": "white",
-      "list": [
-        {
-          "pagePath": "pages/index/index",
-          "text": "首页"
-        },
-        {
-          "pagePath": "pages/addEvents/index",
-          "text": "记录今日"
-        },
-        {
-          "pagePath": "pages/mine/index",
-          "text": "我的"
-        }
-      ]
-    }
 }
