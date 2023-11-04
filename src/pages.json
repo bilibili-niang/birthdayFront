@@ -40,24 +40,21 @@
       "path": "pages/addEvents/index",
       "style": {
         "navigationBarTitleText": "记录今日",
-        "enablePullDownRefresh": true,
-        "navigationStyle": "custom"
+        "enablePullDownRefresh": true
       }
     },
     {
       "path": "pages/discovery/index",
       "style": {
         "navigationBarTitleText": "发现",
-        "enablePullDownRefresh": true,
-        "navigationStyle": "custom"
+        "enablePullDownRefresh": true
       }
     },
     {
       "path": "pages/autonomic/index",
       "style": {
         "navigationBarTitleText": "自律",
-        "enablePullDownRefresh": true,
-        "navigationStyle": "custom"
+        "enablePullDownRefresh": true
       }
     },
     {
@@ -90,6 +87,7 @@
     "color": "#666666",
     "selectedColor": "#ff4437",
     "borderStyle": "white",
+    "fontSize": "18px",
     "list": [
       {
         "pagePath": "pages/index/index",

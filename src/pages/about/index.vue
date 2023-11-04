@@ -55,7 +55,7 @@ nextTick(() => {
 <style scoped lang="less">
 .about {
   .padding-lr-20();
-  padding-top: @padding-m;
+  padding-top: @padding-n;
 
   .context {
     .itemLim {

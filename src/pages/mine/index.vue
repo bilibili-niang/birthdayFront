@@ -1,6 +1,9 @@
 <template>
   <customNavBar :back="false" title="关于我"></customNavBar>
   <view class="mine">
+    <userCard :info="info"></userCard>
+
+
     <view class="mainBtn" @tap="login">
       login
     </view>
@@ -13,10 +16,17 @@
 
 <script setup lang="ts">
 import CustomNavBar from "@/pages/index/components/customNavBar.vue";
-import {ref} from "vue";
+import userCard from './components/userCard/index.vue'
+import {reactive, ref} from "vue";
 import api from "@/utils/api";
 
 let userInfo = ref()
+let info = reactive({
+  name: '张三',
+  avatar: 'https://blog.icestone.work/upload_78351ef6c80b4d627a95dbaa9634cea6.jpg',
+  gender: 'male',
+  age: 23
+})
 
 let code = ref()
 const login = () => {

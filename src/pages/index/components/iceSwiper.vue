@@ -65,8 +65,8 @@ const durationChange: UniHelper.SwiperOnChange = (event) => {
 .iceSwiper {
   border-radius: @radio-ls;
   overflow: hidden;
-  padding-top: @padding-m;
-  padding-bottom: @padding-m;
+  padding-top: @padding-n;
+  padding-bottom: @padding-n;
 }
 
 .active {

@@ -1,6 +1,6 @@
 {
-    "name" : "testXO",
-    "appid" : "__UNI__1EE9A26",
+    "name" : "生日记小程序",
+    "appid" : "__UNI__BCE06E9",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -64,7 +64,7 @@
     },
     "quickapp" : {},
     "mp-weixin" : {
-        "appid" : "wxe8c43d9db3e1333a",
+        "appid" : "wx7fc0635ddc1b6a6c",
         "setting" : {
             "urlCheck" : false
         },
