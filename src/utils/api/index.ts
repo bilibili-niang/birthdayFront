@@ -5,9 +5,8 @@ import env from "./env";
 import events from "./events";
 import user from "@/utils/api/user";
 
-// 服务器开发
-export const baseUrl: String = `https://blog.icestone.work`;
-// export const baseUrl: String = `http://localhost:89`;
+// export const baseUrl: String = `https://blog.icestone.work`;
+export const baseUrl: String = `http://localhost:90`;
 
 // 添加拦截器
 const httpInterceptor = {

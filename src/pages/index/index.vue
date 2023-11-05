@@ -29,9 +29,9 @@ import IceSwiper from "./components/iceSwiper.vue";
 import {reactive, ref} from "vue";
 import api from "@/utils/api";
 import RecommendMarkdown from "@/pages/index/components/recommendMarkdown.vue";
-import Classify from "@/pages/index/components/classify.vue";
-import {onPullDownRefresh} from "@dcloudio/uni-app";
+import {onPullDownRefresh, onShow} from "@dcloudio/uni-app";
 import dayjs from "dayjs";
+import {loginByLocalToken} from "@/mixin/userService.mixin";
 
 let loopItem = ref<any>([])
 const activeIndex = ref(0)
@@ -72,16 +72,17 @@ let userList = reactive([
     icon: '/static/images/icon_user.png',
   },
 ])
-
-
-init()
+onShow(() => {
+  loginByLocalToken()
+})
+// init()
 </script>
 <style scoped lang="less">
-.container {
+.container{
   padding-bottom: 10vh;
 }
 
-.content {
+.content{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -89,23 +90,23 @@ init()
   flex-wrap: wrap;
 }
 
-.text-area {
+.text-area{
   display: flex;
   justify-content: center;
 }
 
-.description {
+.description{
   margin-bottom: @margin-l;
 
-  .itemLim {
+  .itemLim{
     display: flex;
     flex-direction: column;
 
-    .item {
+    .item{
       display: flex;
       flex-direction: column;
 
-      /deep/ .uni-card {
+      /deep/ .uni-card{
         padding: 0;
       }
 

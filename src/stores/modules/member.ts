@@ -1,15 +1,16 @@
-import type {LoginResult} from '@/types/member'
 import {defineStore} from 'pinia'
 import {ref} from 'vue'
+import type {resultObj} from "@/stores/modules/user";
 
 // 定义 Store
 export const useMemberStore = defineStore(
     'member',
     () => {
         // 会员信息
-        const profile = ref<LoginResult>()
+        const profile = ref<resultObj>()
         // 保存会员信息，登录时使用
-        const setProfile = (val: LoginResult) => {
+        const setProfile = (val: resultObj) => {
+            uni.setStorageSync('token', val.token)
             profile.value = val
         }
         // 清理会员信息，退出时使用

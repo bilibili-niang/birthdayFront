@@ -7,7 +7,14 @@ export default {
      */
     async login(params: {}) {
         return http<String[]>({
-            url: '/api/user/miniLogin',
+            url: '/api/wx/user/login',
+            data: params,
+            method: 'POST'
+        })
+    },
+    async loginByToken(params: {}) {
+        return http<String[]>({
+            url: '/api/wx/user/loginByToken',
             data: params,
             method: 'POST'
         })

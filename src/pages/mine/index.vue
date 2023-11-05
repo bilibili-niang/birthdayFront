@@ -4,7 +4,7 @@
     <userCard :info="info"></userCard>
 
 
-    <view class="mainBtn" @tap="login">
+    <view class="mainBtn" @click="login">
       login
     </view>
 
@@ -19,6 +19,7 @@ import CustomNavBar from "@/pages/index/components/customNavBar.vue";
 import userCard from './components/userCard/index.vue'
 import {reactive, ref} from "vue";
 import api from "@/utils/api";
+import {useMemberStore} from "@/stores";
 
 let userInfo = ref()
 let info = reactive({
@@ -29,16 +30,28 @@ let info = reactive({
 })
 
 let code = ref()
+const store = useMemberStore()
+
+console.log(store.$state.profile)
+
 const login = () => {
   uni.login({
     provider: 'weixin', //使用微信登录
     onlyAuthorize: true,
     success: async function (loginRes) {
       code.value = loginRes.code
-      const res = await api.login({
+      await api.login({
         code: code.value
       })
-      console.log(res)
+          .then(res => {
+            if (res.result) {
+              store.setProfile(res.result)
+            }
+          })
+          .catch(e => {
+            console.log("e:")
+            console.log(e)
+          })
     },
     fail: function (err) {
       console.log('err')
