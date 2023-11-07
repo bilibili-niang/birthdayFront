@@ -10,7 +10,6 @@ import {useMemberStore} from "@/stores";
 export const loginByLocalToken = async () => {
   console.log("loginByLocalToken");
   const token = uni.getStorageSync("token");
-  console.log("token", token);
   if (!token) {
     return false;
   }

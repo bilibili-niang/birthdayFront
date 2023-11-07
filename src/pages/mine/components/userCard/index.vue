@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import {defineProps} from 'vue'
+import {baseUrl} from "@/utils/api";
 
 const props = defineProps({
   info: {
     type: Object,
     default: () => {
-      return {}
+      return {
+        username: '张三',
+        id: 1,
+        avatar: '',
+        word: ''
+      }
     }
   }
 })
@@ -14,18 +20,20 @@ const props = defineProps({
 
 <template>
   <view class="userCard">
-    <uni-section title="通栏卡片" type="line">
-      <uni-card title="基础卡片" :isFull="true" sub-title="副标题" extra="额外信息" :thumbnail="avatar">
-        <text class="uni-body">这是一个通栏卡片 ，通栏没有外边距，左右会贴合父元素。</text>
+
+    <uni-section title="关于我" type="line">
+      <uni-card :title="info?.username" :isFull="true" :sub-title="'id'+info?.id" :thumbnail="baseUrl+info?.avatar">
+        <text class="uni-body">{{ info?.word || '-' }}</text>
       </uni-card>
     </uni-section>
+
 
   </view>
 </template>
 
 <style scoped lang="less">
 @import "src/static/css/variable.less";
-.userCard {
+.userCard{
   padding: @padding-l;
   box-sizing: border-box;
 }

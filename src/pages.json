@@ -91,19 +91,21 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "首页"
-      },
-      {
-        "pagePath": "pages/autonomic/index",
-        "text": "自律"
+        "text": "首页",
+        "iconPath": "static/icon/home.png",
+        "selectedIconPath": "static/icon/home-actived.png"
       },
       {
         "pagePath": "pages/discovery/index",
-        "text": "发现"
+        "text": "发现",
+        "iconPath": "static/icon/discovery.png",
+        "selectedIconPath": "static/icon/discovery-actived.png"
       },
       {
         "pagePath": "pages/mine/index",
-        "text": "我的"
+        "text": "我的",
+        "iconPath": "static/icon/my.png",
+        "selectedIconPath": "static/icon/my-actived.png"
       }
     ]
   }

@@ -1,40 +1,46 @@
 <template>
   <customNavBar :back="false" title="关于我"></customNavBar>
   <view class="mine">
-    <userCard :info="info"></userCard>
+    <userCard :info="userInfo" v-if="userInfo?.id"></userCard>
 
+    <!-- 当前没有用户登录-->
+    <view v-else>
+      <view class="text">当前没有用户登录</view>
 
-    <view class="mainBtn" @click="login">
-      login
+      <view class="mainBtn" @click="login">
+        login
+      </view>
+
     </view>
 
-    <view class="data">
-      {{ code }}
-    </view>
+
   </view>
 </template>
 
 <script setup lang="ts">
 import CustomNavBar from "@/pages/index/components/customNavBar.vue";
 import userCard from './components/userCard/index.vue'
-import {reactive, ref} from "vue";
+import {ref} from "vue";
 import api from "@/utils/api";
 import {useMemberStore} from "@/stores";
 
-let userInfo = ref()
-let info = reactive({
-  name: '张三',
-  avatar: 'https://blog.icestone.work/upload_78351ef6c80b4d627a95dbaa9634cea6.jpg',
-  gender: 'male',
-  age: 23
-})
+/**
+ * 存储用户信息
+ */
+let userInfo = ref({})
 
-let code = ref()
+let code = ref('')
 const store = useMemberStore()
 
-console.log(store.$state.profile)
-
 const login = () => {
+  uni.showToast({
+    title: '正在登录',
+    icon: 'loading',
+    duration: 1000
+  })
+  setTimeout(() => {
+    uni.hideToast()
+  }, 1000)
   uni.login({
     provider: 'weixin', //使用微信登录
     onlyAuthorize: true,
@@ -45,7 +51,9 @@ const login = () => {
       })
           .then(res => {
             if (res.result) {
+              uni.hideToast()
               store.setProfile(res.result)
+              userInfo.value = res.result
             }
           })
           .catch(e => {
@@ -60,28 +68,22 @@ const login = () => {
   })
 }
 
-let rawData = ref("")
-const getInfo = () => {
-  uni.getUserProfile({
-    desc: '请登录',
-    lang: 'zh_CN',
-    fail: function (res) {
-      console.log('登录失败')
-      console.log(res);
-    },
-    success: async function (res) {
-      console.log('res')
-      console.log(res)
-      console.log('res.rawData')
-      console.log(res.rawData)
-      rawData.value = JSON.parse(res.rawData)
-    }
-  })
+const getUserInfo = () => {
+  if (!store.$state.profile) {
+    return false
+  }
+  userInfo.value = store.$state.profile
 }
-
+/**
+ * 本地存储的有用户的登录信息时触发
+ */
+getUserInfo()
 
 </script>
 
 <style scoped lang="less">
+.mine{
+  padding: @padding-n;
+}
 
 </style>

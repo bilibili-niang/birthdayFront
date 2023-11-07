@@ -31,7 +31,7 @@ import api from "@/utils/api";
 import RecommendMarkdown from "@/pages/index/components/recommendMarkdown.vue";
 import {onPullDownRefresh, onShow} from "@dcloudio/uni-app";
 import dayjs from "dayjs";
-import {loginByLocalToken} from "@/mixin/userService.mixin";
+import {useMemberStore} from "@/stores";
 
 let loopItem = ref<any>([])
 const activeIndex = ref(0)
@@ -72,8 +72,18 @@ let userList = reactive([
     icon: '/static/images/icon_user.png',
   },
 ])
-onShow(() => {
-  loginByLocalToken()
+onShow(async () => {
+  const token = uni.getStorageSync("token");
+  if (!token) {
+    return false;
+  }
+  await api.loginByToken({
+    token
+  })
+      .then(res => {
+        const store = useMemberStore();
+        store.setProfile(res.result);
+      })
 })
 // init()
 </script>

@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import {onHide, onLaunch, onShow} from "@dcloudio/uni-app";
-import {loginByLocalToken} from "./mixin/userService.mixin.js";
+import api from "@/utils/api";
+import {useMemberStore} from "@/stores";
 
 onLaunch(() => {
-  loginByLocalToken()
-
 });
 onShow(() => {
 

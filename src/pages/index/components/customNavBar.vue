@@ -17,7 +17,7 @@ const props = defineProps({
   },
   rightText: {
     type: String,
-    default: '设置'
+    default: ''
   },
   // 是否可以返回,默认支持
   back: {
@@ -28,7 +28,7 @@ const props = defineProps({
 </script>
 
 <style scoped lang="less">
-.navBar {
+.navBar{
   background: @tabBac;
 }
 </style>
