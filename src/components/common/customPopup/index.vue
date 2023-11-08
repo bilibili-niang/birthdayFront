@@ -1,0 +1,35 @@
+<script lang="ts" setup>
+import {ref} from 'vue'
+
+const popupRef = ref()
+const show = () => {
+  popupRef.value.open('top')
+}
+
+// 这个是必须要暴露的
+defineExpose({
+  show
+})
+</script>
+
+<template>
+
+
+  <uni-popup ref="popupRef" background-color="#fff">
+
+    <view class="popContainer">
+      测试内容!!!!!!!!!!!!!
+    </view>
+  </uni-popup>
+
+</template>
+
+<style scoped lang="less">
+
+.popContainer{
+  display: flex;
+  flex-direction: column;
+  height: 75vh;
+  padding-top: 5vh;
+}
+</style>

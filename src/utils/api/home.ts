@@ -67,5 +67,11 @@ export default {
             method: 'POST',
             data: params
         })
+    },
+    async getPeopleList() {
+        return http<String[]>({
+            url: '/api/people/getPeopleList',
+            method: 'POST',
+        })
     }
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {defineProps} from 'vue'
-import {baseUrl} from "@/utils/api";
+import {baseUrl} from "@/utils/config.js";
 
 const props = defineProps({
   info: {

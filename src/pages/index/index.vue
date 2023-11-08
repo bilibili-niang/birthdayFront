@@ -1,10 +1,9 @@
 <template>
   <customNavBar :back="false" title="首页"></customNavBar>
-  <iceSwiper :list="loopItem" @index="getIndex"></iceSwiper>
+  <!--  <iceSwiper :list="loopItem" @index="getIndex"></iceSwiper>-->
   <view class="container">
-    <recommendMarkdown :list="loopItem" :activeIndex="activeIndex"></recommendMarkdown>
     <!--分类-->
-    <!--    <classify :item="classifyItem"></classify>-->
+    <!--<classify :item="classifyItem"></classify>-->
 
     <!--展示联系人生日列表-->
     <view class="description">
@@ -20,18 +19,22 @@
 
       </view>
     </view>
+    <add></add>
+
+    <view class="mainBtn" @click="getPeopleList">
+      get
+    </view>
   </view>
 </template>
 
 <script setup lang="ts">
 import CustomNavBar from "@/pages/index/components/customNavBar.vue";
-import IceSwiper from "./components/iceSwiper.vue";
 import {reactive, ref} from "vue";
 import api from "@/utils/api";
-import RecommendMarkdown from "@/pages/index/components/recommendMarkdown.vue";
 import {onPullDownRefresh, onShow} from "@dcloudio/uni-app";
 import dayjs from "dayjs";
 import {useMemberStore} from "@/stores";
+import Add from "./components/add/index.vue";
 
 let loopItem = ref<any>([])
 const activeIndex = ref(0)
@@ -65,12 +68,6 @@ let userList = reactive([
     birthday: dayjs().format('YYYY-MM-DD'),
     icon: '/static/images/icon_user.png',
   },
-  {
-    name: '李四',
-    avatar: '/static/images/avatar.png',
-    birthday: dayjs().format('YYYY-MM-DD'),
-    icon: '/static/images/icon_user.png',
-  },
 ])
 onShow(async () => {
   const token = uni.getStorageSync("token");
@@ -86,7 +83,21 @@ onShow(async () => {
       })
 })
 // init()
+
+/**
+ * 获取联系人列表
+ */
+const getPeopleList = async () => {
+  await api.getPeopleList()
+      .then(res => {
+        userList = res.result
+      })
+}
+
+getPeopleList()
+
 </script>
+
 <style scoped lang="less">
 .container{
   padding-bottom: 10vh;

@@ -4,9 +4,8 @@ import type {Data} from "@/types/data";
 import env from "./env";
 import events from "./events";
 import user from "@/utils/api/user";
-
-// export const baseUrl: String = `https://blog.icestone.work`;
-export const baseUrl: String = `http://localhost:90`;
+// @ts-ignore
+import {baseUrl} from "../config"
 
 // 添加拦截器
 const httpInterceptor = {
