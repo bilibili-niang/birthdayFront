@@ -1,3 +1,4 @@
+<!--自定义弹窗组件,支持slot-->
 <script lang="ts" setup>
 import {ref} from 'vue'
 

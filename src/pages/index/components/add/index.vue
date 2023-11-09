@@ -1,22 +1,51 @@
 <script lang="ts" setup>
-import {computed, ref} from 'vue'
+import {computed, ref, Ref} from 'vue'
 import {activeColor} from "@/utils/config";
 import customPopup from "@/components/common/customPopup/index.vue";
+import {dayType} from "@/components/type/day.d.ts";
 
 const color = computed(() => {
   return activeColor
 })
 const customPopupRef = ref()
 const open = () => {
-  // console.log(customPopupRef.value);
   customPopupRef.value.show()
 }
-let formData = ref({
+
+interface forDataInterface {
+  name: String,
+  birthday: String
+}
+
+let formData: Ref<forDataInterface> = ref({
   name: '张三',
+  birthday: '2023-01-01'
 })
 
-const submitForm = () => {
+/**
+ * 生日选择改变
+ */
+/*
+date: 10
+extraInfo: {}
+fulldate: "2023-11-10"
+lunar: Proxy {lYear: 2023, lMonth: 9, lDay: 27, Animal: "兔", IMonthCn: "九月", …}
+month: 11
+range: {before: "", after: "", data: Array(0)}
+year: 2023
+* */
+const birthdayChange = (day: dayType) => {
+  console.log(day)
+  console.log(day.lunar)
+  formData.value.birthday = day.fulldate;
+}
 
+const calendar = ref()
+/**
+ * 打开日期选择器
+ */
+const openDayChoose = () => {
+  calendar.value.open();
 }
 </script>
 
@@ -34,6 +63,18 @@ const submitForm = () => {
         </uni-forms-item>
         <uni-forms-item label="性别" name="gender">
           <uni-easyinput type="text" v-model="formData.gender" placeholder="请输入性别"/>
+        </uni-forms-item>
+
+        <uni-forms-item label="生日" name="gender">
+
+          <uni-calendar
+              ref="calendar"
+              :insert="false"
+              @confirm="birthdayChange"
+          />
+          <view class="birthdayContainer" @click="openDayChoose">
+            birthday:{{ formData.birthday }}
+          </view>
         </uni-forms-item>
 
 
