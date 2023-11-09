@@ -18,7 +18,7 @@ defineExpose({
   <uni-popup ref="popupRef" background-color="#fff">
 
     <view class="popContainer">
-      测试内容!!!!!!!!!!!!!
+      <slot></slot>
     </view>
   </uni-popup>
 
@@ -30,6 +30,7 @@ defineExpose({
   display: flex;
   flex-direction: column;
   height: 75vh;
-  padding-top: 5vh;
+  padding: @padding-n;
+  margin-top: 9vh;
 }
 </style>

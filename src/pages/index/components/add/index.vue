@@ -11,7 +11,9 @@ const open = () => {
   // console.log(customPopupRef.value);
   customPopupRef.value.show()
 }
-let formData = ref({})
+let formData = ref({
+  name: '张三',
+})
 
 const submitForm = () => {
 
@@ -23,7 +25,23 @@ const submitForm = () => {
     <uni-icons type="plusempty" :color="color" size="30"></uni-icons>
   </view>
 
-  <customPopup ref="customPopupRef"></customPopup>
+  <customPopup ref="customPopupRef">
+    <uni-forms :modelValue="formData">
+
+      <uni-section title="添加" type="line">
+        <uni-forms-item label="姓名" name="name">
+          <uni-easyinput type="text" v-model="formData.name" placeholder="请输入姓名"/>
+        </uni-forms-item>
+        <uni-forms-item label="性别" name="gender">
+          <uni-easyinput type="text" v-model="formData.gender" placeholder="请输入性别"/>
+        </uni-forms-item>
+
+
+      </uni-section>
+
+    </uni-forms>
+
+  </customPopup>
 
 </template>
 

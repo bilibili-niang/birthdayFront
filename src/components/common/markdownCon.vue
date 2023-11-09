@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 import api from "@/utils/api";
-import {ref} from "vue";
+import {defineProps, ref} from "vue";
 
 const props = defineProps({
   item: {
@@ -50,15 +50,15 @@ setTimeout(() => {
 </script>
 
 <style scoped lang="less">
-.markdownCon {
-  .MarkdownDetail {
+.markdownCon{
+  .MarkdownDetail{
     .flex-row(column);
 
-    .item {
+    .item{
       white-space: pre-wrap;
     }
 
-    .title, .des, .time {
+    .title, .des, .time{
       margin-bottom: @margin-m;
     }
   }

@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import {defineProps, ref} from "vue";
 
 const props = defineProps({
   list: {
@@ -62,19 +62,19 @@ const durationChange: UniHelper.SwiperOnChange = (event) => {
 </script>
 
 <style scoped lang="less">
-.iceSwiper {
+.iceSwiper{
   border-radius: @radio-ls;
   overflow: hidden;
   padding-top: @padding-n;
   padding-bottom: @padding-n;
 }
 
-.active {
+.active{
   width: 95% !important;
   opacity: 1 !important;
 }
 
-.swiperCon {
+.swiperCon{
   display: flex;
   width: 95vw;
   justify-content: center;
@@ -82,7 +82,7 @@ const durationChange: UniHelper.SwiperOnChange = (event) => {
   position: relative;
   align-items: center;
 
-  .swiperImg {
+  .swiperImg{
     display: flex;
     height: 100%;
     width: 85%;
@@ -94,7 +94,7 @@ const durationChange: UniHelper.SwiperOnChange = (event) => {
     opacity: 0;
   }
 
-  .title {
+  .title{
     position: absolute;
     bottom: -180rpx;
     left: 40rpx;
@@ -105,7 +105,7 @@ const durationChange: UniHelper.SwiperOnChange = (event) => {
     opacity: 0;
   }
 
-  .time {
+  .time{
     position: absolute;
     bottom: -130rpx;
     left: 40rpx;
@@ -116,22 +116,22 @@ const durationChange: UniHelper.SwiperOnChange = (event) => {
 
 }
 
-.activeTitle {
+.activeTitle{
   bottom: 80rpx !important;
 }
 
-.activeTime {
+.activeTime{
   bottom: 30rpx !important;
 }
 
-.activeTitle, .activeTime {
+.activeTitle, .activeTime{
   opacity: 1 !important;
 }
 
-swiper {
+swiper{
   height: 25vh;
 
-  swiper-item {
+  swiper-item{
     height: 25vh;
   }
 }

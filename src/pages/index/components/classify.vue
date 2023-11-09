@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import {defineProps, ref} from "vue";
 
 // 获取屏幕边界到安全区域的距离
 const {safeAreaInsets} = uni.getSystemInfoSync()
@@ -86,30 +86,30 @@ const goReadTags = (item: string) => {
 </script>
 
 <style scoped lang="less">
-.classify {
-  .classifyLim {
+.classify{
+  .classifyLim{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
 
-    .itemLim {
+    .itemLim{
       margin: @margin-s;
       .flex-row(column);
       width: 130rpx;
       justify-content: center;
       align-items: center;
 
-      .icon {
+      .icon{
         .flex-row();
         justify-content: center;
       }
 
-      .redIcon {
+      .redIcon{
         box-shadow: 5rpx 5rpx 10rpx 10rpx #dd524d;
       }
 
-      .title {
+      .title{
         font-size: @font-s;
         .flex-row();
         justify-content: center;
@@ -117,18 +117,18 @@ const goReadTags = (item: string) => {
     }
   }
 
-  /deep/ .popupLim {
+  /deep/ .popupLim{
     flex-wrap: wrap;
     flex-direction: row !important;
     justify-content: center;
     background: @bacColor;
 
-    .itemLim {
+    .itemLim{
       max-width: 140rpx;
       justify-content: center;
       align-items: center;
 
-      .icon {
+      .icon{
         background: @themeColor-heightLight !important;
       }
     }

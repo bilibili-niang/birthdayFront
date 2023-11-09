@@ -8,6 +8,7 @@
 </template>
 
 <script setup lang="ts">
+import {defineProps} from 'vue'
 // 获取屏幕边界到安全区域的距离
 const {safeAreaInsets} = uni.getSystemInfoSync()
 const props = defineProps({
