@@ -13,13 +13,16 @@ const open = () => {
 }
 
 interface forDataInterface {
-  name: String,
-  birthday: String
+  name: string,
+  birthday: string,
+  animalSign: string
 }
 
 let formData: Ref<forDataInterface> = ref({
   name: '张三',
-  birthday: '2023-01-01'
+  birthday: '2023-01-01',
+  // 生肖
+  animalSign: ''
 })
 
 /**
@@ -35,9 +38,9 @@ range: {before: "", after: "", data: Array(0)}
 year: 2023
 * */
 const birthdayChange = (day: dayType) => {
-  console.log(day)
   console.log(day.lunar)
   formData.value.birthday = day.fulldate;
+  formData.value.animalSign = day.lunar.Animal;
 }
 
 const calendar = ref()
@@ -61,9 +64,6 @@ const openDayChoose = () => {
         <uni-forms-item label="姓名" name="name">
           <uni-easyinput type="text" v-model="formData.name" placeholder="请输入姓名"/>
         </uni-forms-item>
-        <uni-forms-item label="性别" name="gender">
-          <uni-easyinput type="text" v-model="formData.gender" placeholder="请输入性别"/>
-        </uni-forms-item>
 
         <uni-forms-item label="生日" name="gender">
 
@@ -73,8 +73,12 @@ const openDayChoose = () => {
               @confirm="birthdayChange"
           />
           <view class="birthdayContainer" @click="openDayChoose">
-            birthday:{{ formData.birthday }}
+            {{ formData.birthday }}
           </view>
+        </uni-forms-item>
+
+        <uni-forms-item label="生肖" name="gender">
+          <uni-easyinput v-model="formData.animalSign" placeholder="生肖"></uni-easyinput>
         </uni-forms-item>
 
 

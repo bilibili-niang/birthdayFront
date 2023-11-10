@@ -10,8 +10,12 @@ export const useMemberStore = defineStore(
         const profile = ref<resultObj>()
         // 保存会员信息，登录时使用
         const setProfile = (val: resultObj) => {
-            uni.setStorageSync('token', val.token)
-            profile.value = val
+            if (val.token) {
+                uni.setStorageSync('token', val.token)
+            }
+            if (val) {
+                profile.value = val
+            }
         }
         // 清理会员信息，退出时使用
         const clearProfile = () => {

@@ -19,7 +19,7 @@
 
       </view>
     </view>
-    <add></add>
+    <add v-if="userFlag"></add>
 
     <view class="mainBtn" @click="getPeopleList">
       get
@@ -37,11 +37,6 @@ import {useMemberStore} from "@/stores";
 import Add from "./components/add/index.vue";
 
 let loopItem = ref<any>([])
-const activeIndex = ref(0)
-const getIndex = (id: number) => {
-  // console.log(`前激活id: ${id}`)
-  activeIndex.value = id
-}
 
 const content = ref('')
 
@@ -61,14 +56,24 @@ const init = async () => {
   classifyItem.value = tags.result
 }
 
-let userList = reactive([
+interface userObject {
+  name: string,
+  avatar: string,
+  birthday: string,
+  icon: string,
+}
+
+let userList = reactive<userObject[]>([
   {
     name: '张三',
     avatar: '/static/images/avatar.png',
     birthday: dayjs().format('YYYY-MM-DD'),
     icon: '/static/images/icon_user.png',
-  },
+  }
 ])
+let userFlag = ref(false)
+
+const store = useMemberStore();
 onShow(async () => {
   const token = uni.getStorageSync("token");
   if (!token) {
@@ -78,7 +83,7 @@ onShow(async () => {
     token
   })
       .then(res => {
-        const store = useMemberStore();
+        userFlag.value = true
         store.setProfile(res.result);
       })
 })
