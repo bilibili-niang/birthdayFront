@@ -3,6 +3,7 @@ import {computed, ref, Ref} from 'vue'
 import {activeColor} from "@/utils/config";
 import customPopup from "@/components/common/customPopup/index.vue";
 import {dayType} from "@/components/type/day.d.ts";
+import api from "@/utils/api";
 
 const color = computed(() => {
   return activeColor
@@ -19,10 +20,10 @@ interface forDataInterface {
 }
 
 let formData: Ref<forDataInterface> = ref({
-  name: '张三',
-  birthday: '2023-01-01',
+  name: '',
+  birthday: '---',
   // 生肖
-  animalSign: ''
+  animalSign: '---'
 })
 
 /**
@@ -48,7 +49,25 @@ const calendar = ref()
  * 打开日期选择器
  */
 const openDayChoose = () => {
+  console.log(calendar.value);
   calendar.value.open();
+
+}
+/**
+ * 提交
+ */
+const submitFormData = async () => {
+  const data = JSON.parse(JSON.stringify(formData.val ue))
+  await api.addBirthday(data)
+      .then(res => {
+        console.log("res:")
+        console.log(res)
+      })
+      .catch(e => {
+        console.log("e:")
+        console.log(e)
+      })
+
 }
 </script>
 
@@ -65,22 +84,29 @@ const openDayChoose = () => {
           <uni-easyinput type="text" v-model="formData.name" placeholder="请输入姓名"/>
         </uni-forms-item>
 
-        <uni-forms-item label="生日" name="gender">
-
+        <view class="row line">
+          <view class="title">生日</view>
           <uni-calendar
               ref="calendar"
               :insert="false"
               @confirm="birthdayChange"
           />
-          <view class="birthdayContainer" @click="openDayChoose">
+          <view class="text" @click="openDayChoose">
             {{ formData.birthday }}
           </view>
-        </uni-forms-item>
+        </view>
 
-        <uni-forms-item label="生肖" name="gender">
-          <uni-easyinput v-model="formData.animalSign" placeholder="生肖"></uni-easyinput>
-        </uni-forms-item>
 
+        <view class="row line">
+          <view class="title">生肖</view>
+          <view class="text">
+            {{ formData.animalSign }}
+          </view>
+        </view>
+
+        <view class="manBtn bottom" @click="submitFormData">
+          submit
+        </view>
 
       </uni-section>
 
@@ -102,5 +128,14 @@ const openDayChoose = () => {
   border-radius: 50%;
   justify-content: center;
   align-items: center;
+}
+.line{
+  .title{
+    width: 25%;
+
+    .text{
+      flex: 1;
+    }
+  }
 }
 </style>

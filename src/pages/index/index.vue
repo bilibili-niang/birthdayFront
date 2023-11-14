@@ -100,7 +100,6 @@ const getPeopleList = async () => {
 }
 
 getPeopleList()
-
 </script>
 
 <style scoped lang="less">
@@ -135,8 +134,6 @@ getPeopleList()
       /deep/ .uni-card{
         padding: 0;
       }
-
-
     }
   }
 }

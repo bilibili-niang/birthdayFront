@@ -6,6 +6,7 @@ import events from "./events";
 import user from "@/utils/api/user";
 // @ts-ignore
 import {baseUrl} from "../config"
+import birthday from "@/utils/api/birthday";
 
 // 添加拦截器
 const httpInterceptor = {
@@ -71,5 +72,6 @@ export default {
     ...home,
     ...env,
     ...events,
-    ...user
+    ...user,
+    ...birthday
 }
