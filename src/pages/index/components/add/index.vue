@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import {computed, ref, Ref} from 'vue'
+import {computed, ref} from 'vue'
 import {activeColor} from "@/utils/config";
 import customPopup from "@/components/common/customPopup/index.vue";
-import {dayType} from "@/components/type/day.d.ts";
 import api from "@/utils/api";
 
 const color = computed(() => {
@@ -13,51 +12,39 @@ const open = () => {
   customPopupRef.value.show()
 }
 
-interface forDataInterface {
-  name: string,
-  birthday: string,
-  animalSign: string
-}
-
-let formData: Ref<forDataInterface> = ref({
-  name: '',
-  birthday: '---',
-  // 生肖
-  animalSign: '---'
+let formData = ref({
+  birthday: "2023-11-10",
+  lunaBirthday:''
 })
 
-/**
- * 生日选择改变
- */
-/*
-date: 10
-extraInfo: {}
-fulldate: "2023-11-10"
-lunar: Proxy {lYear: 2023, lMonth: 9, lDay: 27, Animal: "兔", IMonthCn: "九月", …}
-month: 11
-range: {before: "", after: "", data: Array(0)}
-year: 2023
-* */
-const birthdayChange = (day: dayType) => {
-  console.log(day.lunar)
-  formData.value.birthday = day.fulldate;
-  formData.value.animalSign = day.lunar.Animal;
-}
-
-const calendar = ref()
 /**
  * 打开日期选择器
  */
 const openDayChoose = () => {
   console.log(calendar.value);
   calendar.value.open();
+}
 
+// 生日选择器的数据
+let info = ref({})
+let calendar = ref()
+const birthdayChange = (val:any) => {
+  console.log("birthdayChange")
+  console.log("val:", val)
+  let {lunar = null} = val
+  formData.value.birthday = val.fulldate
+  formData.value.lunaBirthday = val.lunar.IMonthCn + val.lunar.IDayCn
+
+  if (lunar) {
+    formData.value.animalSign = lunar.Animal
+  }
 }
 /**
  * 提交
  */
 const submitFormData = async () => {
-  const data = JSON.parse(JSON.stringify(formData.val ue))
+  const data = JSON.parse(JSON.stringify(formData.value))
+  console.log(Object.keys(data))
   await api.addBirthday(data)
       .then(res => {
         console.log("res:")
@@ -84,18 +71,20 @@ const submitFormData = async () => {
           <uni-easyinput type="text" v-model="formData.name" placeholder="请输入姓名"/>
         </uni-forms-item>
 
-        <view class="row line">
-          <view class="title">生日</view>
-          <uni-calendar
-              ref="calendar"
-              :insert="false"
-              @confirm="birthdayChange"
-          />
+        <uni-forms-item label="生日" name="name">
+
           <view class="text" @click="openDayChoose">
             {{ formData.birthday }}
           </view>
-        </view>
 
+        </uni-forms-item>
+        <uni-calendar
+            ref="calendar"
+            :insert="false"
+            :showMonth="false"
+            lunar
+            @confirm="birthdayChange"
+        />
 
         <view class="row line">
           <view class="title">生肖</view>
@@ -130,11 +119,17 @@ const submitFormData = async () => {
   align-items: center;
 }
 .line{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+
   .title{
     width: 25%;
+    background: gray;
 
     .text{
       flex: 1;
+      background: rgba(0, 0, 0, .1);
     }
   }
 }

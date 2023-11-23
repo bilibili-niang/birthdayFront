@@ -1,9 +1,7 @@
 <template>
   <customNavBar :back="false" title="首页"></customNavBar>
-  <!--  <iceSwiper :list="loopItem" @index="getIndex"></iceSwiper>-->
   <view class="container">
     <!--分类-->
-    <!--<classify :item="classifyItem"></classify>-->
 
     <!--展示联系人生日列表-->
     <view class="description">

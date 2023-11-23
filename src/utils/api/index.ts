@@ -30,7 +30,7 @@ uni.addInterceptor('request', httpInterceptor)
 uni.addInterceptor('uploadFile', httpInterceptor)
 
 
-export const http = <T>(options: UniApp.RequestOptions) => {
+export const http = <T>(options: UniApp.RequestOptions & { token: Boolean }) => {
     // @date 2023/9/5 @time 10:35 , @author 张嘉凯
     // TODO 微信小程序开发把下面的配置打开
     // @ts-ignore
@@ -49,6 +49,8 @@ export const http = <T>(options: UniApp.RequestOptions) => {
                     memberStore.clearProfile()
                     uni.navigateTo({url: '/pages/login/index'})
                     reject(res)
+                } else if (res.statusCode === 10101) {
+                    console.log('token过期需要清理')
                 } else {
                     uni.showToast({
                         icon: 'none',

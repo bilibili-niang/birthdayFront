@@ -30,7 +30,7 @@ defineExpose({
 .popContainer{
   display: flex;
   flex-direction: column;
-  height: 75vh;
+  height: 90vh;
   padding: @padding-n;
   margin-top: 9vh;
 }

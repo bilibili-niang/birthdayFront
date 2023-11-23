@@ -5,6 +5,7 @@ export default {
         return http<String[]>({
             url: '/api/wx/birthday/add',
             data: params,
+            token: true,
             method: 'POST'
         })
     }
