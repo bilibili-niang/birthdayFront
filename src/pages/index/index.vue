@@ -1,8 +1,5 @@
 <template>
-  <customNavBar :back="false" title="首页"></customNavBar>
   <view class="container">
-    <!--分类-->
-
     <!--展示联系人生日列表-->
     <view class="description">
       <view class="itemLim">
@@ -17,8 +14,7 @@
 
       </view>
     </view>
-    <add v-if="userFlag"></add>
-
+    <add v-if="userFlag" @close="userFlag=!userFlag"></add>
     <view class="mainBtn" @click="getPeopleList">
       get
     </view>
@@ -26,7 +22,6 @@
 </template>
 
 <script setup lang="ts">
-import CustomNavBar from "@/pages/index/components/customNavBar.vue";
 import {reactive, ref} from "vue";
 import api from "@/utils/api";
 import {onPullDownRefresh, onShow} from "@dcloudio/uni-app";

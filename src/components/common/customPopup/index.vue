@@ -6,16 +6,19 @@ const popupRef = ref()
 const show = () => {
   popupRef.value.open('top')
 }
+const close = () => {
+  popupRef.value.close()
+}
 
 // 这个是必须要暴露的
 defineExpose({
-  show
+  show,
+  close
 })
 </script>
 
 <template>
-
-
+  
   <uni-popup ref="popupRef" background-color="#fff">
 
     <view class="popContainer">
@@ -32,6 +35,6 @@ defineExpose({
   flex-direction: column;
   height: 90vh;
   padding: @padding-n;
-  margin-top: 9vh;
+  //margin-top: 9vh;
 }
 </style>

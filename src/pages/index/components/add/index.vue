@@ -14,7 +14,7 @@ const open = () => {
 
 let formData = ref({
   birthday: "2023-11-10",
-  lunaBirthday:''
+  lunaBirthday: ''
 })
 
 /**
@@ -28,7 +28,7 @@ const openDayChoose = () => {
 // 生日选择器的数据
 let info = ref({})
 let calendar = ref()
-const birthdayChange = (val:any) => {
+const birthdayChange = (val: any) => {
   console.log("birthdayChange")
   console.log("val:", val)
   let {lunar = null} = val
@@ -54,7 +54,16 @@ const submitFormData = async () => {
         console.log("e:")
         console.log(e)
       })
-
+}
+const emits = defineEmits(['close'])
+/**
+ * 取消
+ */
+const cancelSubmit = () => {
+  customPopupRef.value.close()
+  /*  setTimeout(() => {
+      emits('close')
+    })*/
 }
 </script>
 
@@ -65,18 +74,14 @@ const submitFormData = async () => {
 
   <customPopup ref="customPopupRef">
     <uni-forms :modelValue="formData">
-
       <uni-section title="添加" type="line">
         <uni-forms-item label="姓名" name="name">
           <uni-easyinput type="text" v-model="formData.name" placeholder="请输入姓名"/>
         </uni-forms-item>
-
         <uni-forms-item label="生日" name="name">
-
           <view class="text" @click="openDayChoose">
             {{ formData.birthday }}
           </view>
-
         </uni-forms-item>
         <uni-calendar
             ref="calendar"
@@ -92,17 +97,13 @@ const submitFormData = async () => {
             {{ formData.animalSign }}
           </view>
         </view>
-
-        <view class="manBtn bottom" @click="submitFormData">
-          submit
-        </view>
-
+        <div class="row">
+          <div class="manBtn bottom" @click="submitFormData">submit</div>
+          <div class="manBtn" @click="cancelSubmit">取消</div>
+        </div>
       </uni-section>
-
     </uni-forms>
-
   </customPopup>
-
 </template>
 
 <style scoped lang="less">
@@ -125,12 +126,14 @@ const submitFormData = async () => {
 
   .title{
     width: 25%;
-    background: gray;
 
     .text{
       flex: 1;
-      background: rgba(0, 0, 0, .1);
     }
   }
+}
+/deep/ .uni-forms-item__content{
+  display: flex;
+  align-items: center;
 }
 </style>

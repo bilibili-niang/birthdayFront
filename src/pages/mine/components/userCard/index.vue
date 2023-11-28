@@ -27,7 +27,6 @@ const props = defineProps({
       </uni-card>
     </uni-section>
 
-
   </view>
 </template>
 

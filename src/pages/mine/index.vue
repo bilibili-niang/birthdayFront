@@ -1,5 +1,4 @@
 <template>
-  <customNavBar :back="false" title="关于我"></customNavBar>
   <view class="mine">
     <userCard :info="userInfo" v-if="userInfo?.id"></userCard>
 
@@ -10,15 +9,13 @@
       <view class="mainBtn" @click="login">
         login
       </view>
-
+      userInfo: {{ userInfo }}
     </view>
-
 
   </view>
 </template>
 
 <script setup lang="ts">
-import CustomNavBar from "@/pages/index/components/customNavBar.vue";
 import userCard from './components/userCard/index.vue'
 import {ref} from "vue";
 import api from "@/utils/api";
@@ -53,7 +50,8 @@ const login = () => {
             if (res.result) {
               uni.hideToast()
               store.setProfile(res.result)
-              userInfo.value = res.result
+              userInfo.value = res.result;
+              console.log("userInfo.value:", userInfo.value)
             }
           })
           .catch(e => {
