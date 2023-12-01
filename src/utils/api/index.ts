@@ -41,6 +41,7 @@ export const http = <T>(options: UniApp.RequestOptions & { token: Boolean }) => 
             ...options,
             // 只代表响应成功,并没有判断状态码
             success: (res) => {
+                console.log("http 中的 res:", res)
                 if (res.statusCode >= 200 && res.statusCode < 300) {
                     resolve(res.data as Data<T>)
                 } else if (res.statusCode === 401) {
@@ -49,7 +50,7 @@ export const http = <T>(options: UniApp.RequestOptions & { token: Boolean }) => 
                     memberStore.clearProfile()
                     uni.navigateTo({url: '/pages/login/index'})
                     reject(res)
-                } else if (res.statusCode === 10101) {
+                } else if (res.statusCode + '' === '10101') {
                     console.log('token过期需要清理')
                 } else {
                     uni.showToast({

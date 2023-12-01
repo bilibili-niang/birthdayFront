@@ -21,7 +21,6 @@ let formData = ref({
  * 打开日期选择器
  */
 const openDayChoose = () => {
-  console.log(calendar.value);
   calendar.value.open();
 }
 
@@ -29,8 +28,6 @@ const openDayChoose = () => {
 let info = ref({})
 let calendar = ref()
 const birthdayChange = (val: any) => {
-  console.log("birthdayChange")
-  console.log("val:", val)
   let {lunar = null} = val
   formData.value.birthday = val.fulldate
   formData.value.lunaBirthday = val.lunar.IMonthCn + val.lunar.IDayCn
@@ -44,11 +41,18 @@ const birthdayChange = (val: any) => {
  */
 const submitFormData = async () => {
   const data = JSON.parse(JSON.stringify(formData.value))
-  console.log(Object.keys(data))
   await api.addBirthday(data)
       .then(res => {
         console.log("res:")
         console.log(res)
+        if (res.success) {
+          customPopupRef.value.close()
+          uni.showToast({
+            title: '添加成功',
+            duration: 1300,
+            icon: 'success'
+          });
+        }
       })
       .catch(e => {
         console.log("e:")

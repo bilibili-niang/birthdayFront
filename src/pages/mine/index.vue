@@ -1,7 +1,6 @@
 <template>
-  <view class="mine">
-    <userCard :info="userInfo" v-if="userInfo?.id"></userCard>
-
+  <div class="mine">
+    <userCard :info="userInfo" v-if="userInfo"></userCard>
     <!-- 当前没有用户登录-->
     <view v-else>
       <view class="text">当前没有用户登录</view>
@@ -9,10 +8,9 @@
       <view class="mainBtn" @click="login">
         login
       </view>
-      userInfo: {{ userInfo }}
     </view>
 
-  </view>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -24,7 +22,7 @@ import {useMemberStore} from "@/stores";
 /**
  * 存储用户信息
  */
-let userInfo = ref({})
+let userInfo = ref(null)
 
 let code = ref('')
 const store = useMemberStore()
@@ -69,8 +67,10 @@ const login = () => {
 const getUserInfo = () => {
   if (!store.$state.profile) {
     return false
+  } else {
+    userInfo.value = store.$state.profile
+    console.log(userInfo.value);
   }
-  userInfo.value = store.$state.profile
 }
 /**
  * 本地存储的有用户的登录信息时触发

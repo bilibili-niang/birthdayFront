@@ -8,7 +8,7 @@ const props = defineProps({
     default: () => {
       return {
         username: '张三',
-        id: 1,
+        randomId: 1,
         avatar: '',
         word: ''
       }
@@ -19,15 +19,21 @@ const props = defineProps({
 </script>
 
 <template>
-  <view class="userCard">
-
+  <div class="userCard">
     <uni-section title="关于我" type="line">
-      <uni-card :title="info?.username" :isFull="true" :sub-title="'id'+info?.id" :thumbnail="baseUrl+info?.avatar">
-        <text class="uni-body">{{ info?.word || '-' }}</text>
+      <uni-card :title="info?.name" :isFull="true" sub-title="暂无"
+                :thumbnail="baseUrl+info?.avatar">
+        <!-- <text class="uni-body">-->
+        <div class="ice-column">
+          <div class="ice-row alignCenter">
+            <div class="ice-tag">生日:</div>
+            {{ info?.birthday || '-' }}
+          </div>
+        </div>
       </uni-card>
     </uni-section>
 
-  </view>
+  </div>
 </template>
 
 <style scoped lang="less">
