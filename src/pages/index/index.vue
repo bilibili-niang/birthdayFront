@@ -3,31 +3,33 @@
     <!--展示联系人生日列表-->
     <view class="description">
       <view class="itemLim">
-        <view class="item" v-for="(item,index) in userList" :key="index">
-
-          <!-- <uni-section title="通栏卡片" type="line">-->
-          <uni-card :title="item.name" sub-title="副标题" :extra="'还有n天'" :thumbnail="item.avatar">
-            <text>{{ item.birthday }}</text>
-          </uni-card>
-
-        </view>
-
+        <uni-section title="联系人列表" type="line">
+          <view class="item" v-for="(item,index) in userList" :key="index" @click="friendDetail(item)">
+            <uni-card :title="item.name" :sub-title="'关系:'+item.relationship" :extra="'还有n天'"
+                      :thumbnail="baseUrl+item.avatar">
+              <div class="ice-row">
+                <div class="ice-tag">出生年月:</div>
+                <div class="ice-text">
+                  {{ item.birthday }}
+                </div>
+              </div>
+            </uni-card>
+          </view>
+        </uni-section>
       </view>
     </view>
     <add v-if="userFlag" @close="userFlag=!userFlag"></add>
-    <view class="mainBtn" @click="getPeopleList">
-      get
-    </view>
   </view>
 </template>
 
 <script setup lang="ts">
-import {reactive, ref} from "vue";
+import {ref} from "vue";
 import api from "@/utils/api";
 import {onPullDownRefresh, onShow} from "@dcloudio/uni-app";
 import dayjs from "dayjs";
 import {useMemberStore} from "@/stores";
 import Add from "./components/add/index.vue";
+import {baseUrl} from "@/utils/config";
 
 let loopItem = ref<any>([])
 
@@ -35,6 +37,7 @@ const content = ref('')
 
 // 下拉触发获取随机文章
 onPullDownRefresh(() => {
+  getPeopleList();
 })
 
 // 分类列表
@@ -56,12 +59,12 @@ interface userObject {
   icon: string,
 }
 
-let userList = reactive<userObject[]>([
+let userList = ref<userObject[]>([
   {
     name: '张三',
-    avatar: '/static/images/avatar.png',
+    avatar: '/images/avatar.png',
     birthday: dayjs().format('YYYY-MM-DD'),
-    icon: '/static/images/icon_user.png',
+    icon: '/images/icon_user.png',
   }
 ])
 let userFlag = ref(false)
@@ -88,8 +91,30 @@ onShow(async () => {
 const getPeopleList = async () => {
   await api.getPeopleList()
       .then(res => {
-        userList = res.result
+        userList.value = res.result
+        console.log(
+            res.result
+        )
       })
+
+}
+// 跳转联系人详情
+const friendDetail = (item) => {
+  console.log(item)
+  const {friendId = null} = item;
+  if (!friendId) {
+    uni.showToast({
+      title: '该联系人无法跳转',
+      icon: 'error',
+      duration: 1300
+    })
+    return false
+  } else {
+    // 跳转
+    uni.navigateTo({
+      url: '/pages/friend/detail/index?friendId=' + friendId
+    });
+  }
 }
 
 getPeopleList()

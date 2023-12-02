@@ -4,7 +4,10 @@
 
 <template>
   <view class="discovery">
-    发现
+    <div class="ice-text">
+      发现
+    </div>
+
   </view>
 
 </template>

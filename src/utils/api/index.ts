@@ -7,6 +7,7 @@ import user from "@/utils/api/user";
 // @ts-ignore
 import {baseUrl} from "../config"
 import birthday from "@/utils/api/birthday";
+import friend from "@/utils/api/friend";
 
 // 添加拦截器
 const httpInterceptor = {
@@ -30,7 +31,7 @@ uni.addInterceptor('request', httpInterceptor)
 uni.addInterceptor('uploadFile', httpInterceptor)
 
 
-export const http = <T>(options: UniApp.RequestOptions & { token: Boolean }) => {
+export const http = <T>(options: UniApp.RequestOptions & any) => {
     // @date 2023/9/5 @time 10:35 , @author 张嘉凯
     // TODO 微信小程序开发把下面的配置打开
     // @ts-ignore
@@ -40,7 +41,7 @@ export const http = <T>(options: UniApp.RequestOptions & { token: Boolean }) => 
         uni.request({
             ...options,
             // 只代表响应成功,并没有判断状态码
-            success: (res) => {
+            success: (res:any) => {
                 console.log("http 中的 res:", res)
                 if (res.statusCode >= 200 && res.statusCode < 300) {
                     resolve(res.data as Data<T>)
@@ -60,7 +61,7 @@ export const http = <T>(options: UniApp.RequestOptions & { token: Boolean }) => 
                     reject(res)
                 }
             },
-            fail: (err) => {
+            fail: (err:any) => {
                 uni.showToast({
                     icon: 'none',
                     title: '网络错误,换个网络试试'
@@ -76,5 +77,6 @@ export default {
     ...env,
     ...events,
     ...user,
-    ...birthday
+    ...birthday,
+    ...friend
 }

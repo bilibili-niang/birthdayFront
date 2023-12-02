@@ -98,11 +98,12 @@ const cancelSubmit = () => {
         <view class="row line">
           <view class="title">生肖</view>
           <view class="text">
-            {{ formData.animalSign }}
+            {{ formData.animalSign || "请先点击生日选择日期" }}
           </view>
         </view>
         <div class="row">
-          <div class="manBtn bottom" @click="submitFormData">submit</div>
+          <div class="manBtn bottom" @click="submitFormData">添加</div>
+          <div class="verticalBlock"></div>
           <div class="manBtn" @click="cancelSubmit">取消</div>
         </div>
       </uni-section>
@@ -129,7 +130,8 @@ const cancelSubmit = () => {
   width: 100%;
 
   .title{
-    width: 25%;
+    width: 20%;
+    max-width: 20%;
 
     .text{
       flex: 1;

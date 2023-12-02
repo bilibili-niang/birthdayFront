@@ -144,7 +144,7 @@ view{
 .ice-tag{
   color: @fontColor;
   font-size: @font-m;
-  padding: @padding-s @padding-l;
+  padding: @padding-s-s @padding-s;
   margin: @margin-s-s;
   background: @bacColor-bleak-bleak;
   border-radius: @radio-m;
@@ -164,4 +164,16 @@ view{
 }
 .alignCenter{
   align-items: center;
+}
+.ice-text{
+  font-size: @font-m;
+  color: @fontColor;
+  margin: @margin-s-s;
+}
+
+// 横向元素之间的占位空隙元素
+.verticalBlock{
+  display: flex;
+  height: 100%;
+  width: 20rpx;
 }

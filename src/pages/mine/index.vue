@@ -31,11 +31,8 @@ const login = () => {
   uni.showToast({
     title: '正在登录',
     icon: 'loading',
-    duration: 1000
+    duration: 1300
   })
-  setTimeout(() => {
-    uni.hideToast()
-  }, 1000)
   uni.login({
     provider: 'weixin', //使用微信登录
     onlyAuthorize: true,

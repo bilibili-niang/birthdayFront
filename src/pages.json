@@ -11,7 +11,7 @@
       "path": "pages/index/index",
       "style": {
         "navigationBarTitleText": "首页",
-          "enablePullDownRefresh": true
+        "enablePullDownRefresh": true
       }
     },
     {
@@ -70,6 +70,14 @@
       "style": {
         "enablePullDownRefresh": true,
         "navigationBarTitleText": "我",
+        "onReachBottomDistance": 200
+      }
+    },
+    {
+      "path": "pages/friend/detail/index",
+      "style": {
+        "enablePullDownRefresh": true,
+        "navigationBarTitleText": "联系人详情",
         "onReachBottomDistance": 200
       }
     }
