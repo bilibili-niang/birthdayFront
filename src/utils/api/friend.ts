@@ -7,7 +7,7 @@ export default {
      */
     async getFriendDetailById(params: {}) {
         return http<String[]>({
-            url: '/api/wx/user/login',
+            url: '/api/people/friendDetail',
             data: params,
             method: 'POST'
         })

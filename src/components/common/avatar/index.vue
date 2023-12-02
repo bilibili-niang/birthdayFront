@@ -46,8 +46,8 @@ const props = defineProps({
   }
 
   .size-s{
-    width: 25vw;
-    height: 25vw;
+    width: 3rem;
+    height: 3rem;
   }
 
   .size-n{

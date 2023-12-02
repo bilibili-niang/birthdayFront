@@ -19,7 +19,7 @@ const httpInterceptor = {
         }
         // 添加token:
         const memberStore = useMemberStore()
-        const token = memberStore.profile?.token
+        const token = memberStore.profile?.token || uni.getStorageSync('token')
         if (token) {
             options.header.Authorization = token
         }
@@ -41,8 +41,7 @@ export const http = <T>(options: UniApp.RequestOptions & any) => {
         uni.request({
             ...options,
             // 只代表响应成功,并没有判断状态码
-            success: (res:any) => {
-                console.log("http 中的 res:", res)
+            success: (res: any) => {
                 if (res.statusCode >= 200 && res.statusCode < 300) {
                     resolve(res.data as Data<T>)
                 } else if (res.statusCode === 401) {
@@ -61,7 +60,7 @@ export const http = <T>(options: UniApp.RequestOptions & any) => {
                     reject(res)
                 }
             },
-            fail: (err:any) => {
+            fail: (err: any) => {
                 uni.showToast({
                     icon: 'none',
                     title: '网络错误,换个网络试试'

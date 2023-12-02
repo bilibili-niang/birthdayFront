@@ -53,6 +53,7 @@ const submitFormData = async () => {
             icon: 'success'
           });
         }
+        emits('close')
       })
       .catch(e => {
         console.log("e:")

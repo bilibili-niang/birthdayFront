@@ -18,7 +18,7 @@
         </uni-section>
       </view>
     </view>
-    <add v-if="userFlag" @close="userFlag=!userFlag"></add>
+    <add v-if="userFlag" @close="addPopupClose"></add>
   </view>
 </template>
 
@@ -47,7 +47,6 @@ const classifyItem = ref<any>([])
 const init = async () => {
   const res = await api.homeRecommend()
   loopItem.value = res.result
-  console.log(loopItem)
   const tags = await api.allTags()
   classifyItem.value = tags.result
 }
@@ -83,7 +82,6 @@ onShow(async () => {
         store.setProfile(res.result);
       })
 })
-// init()
 
 /**
  * 获取联系人列表
@@ -91,16 +89,13 @@ onShow(async () => {
 const getPeopleList = async () => {
   await api.getPeopleList()
       .then(res => {
+        uni.stopPullDownRefresh();
         userList.value = res.result
-        console.log(
-            res.result
-        )
       })
 
 }
 // 跳转联系人详情
-const friendDetail = (item) => {
-  console.log(item)
+const friendDetail = (item: any) => {
   const {friendId = null} = item;
   if (!friendId) {
     uni.showToast({
@@ -116,7 +111,13 @@ const friendDetail = (item) => {
     });
   }
 }
-
+/**
+ * 添加弹窗关闭,重新获取数据
+ */
+const addPopupClose = () => {
+  getPeopleList();
+  userFlag.value = !userFlag.value
+}
 getPeopleList()
 </script>
 

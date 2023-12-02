@@ -93,16 +93,21 @@
 }
 
 .red{
-  color: #dd524d;
+  color: #dd524d !important;
 }
 
 .mainBtn{
   z-index: 10;
-  color: @fontColor;
-  border: @themeActiveColor 1px solid;
+  color: @fontColor-gray;
+  border: @themeColor 1px solid;
   padding: 10rpx;
-  border-radius: @radio-ls;
+  border-radius: @radio-m;
   width: fit-content;
+}
+// 语义化按钮
+.danger{
+  color: @dangerColor-bleak !important;
+  border-color: @dangerColor-bleak !important;
 }
 
 .markdown{
@@ -176,4 +181,10 @@ view{
   display: flex;
   height: 100%;
   width: 20rpx;
+}
+.heightFit{
+  height: fit-content;
+}
+.widthFit{
+  width: fit-content;
 }
