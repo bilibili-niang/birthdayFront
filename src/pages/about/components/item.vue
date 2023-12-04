@@ -1,6 +1,6 @@
 <template>
   <view class="itemCon">
-    <image class="coverImg" mode="aspectFill" @error="errFun" :src="'http://localhost:89'+childrenItem.headImg"></image>
+    <image class="coverImg" mode="aspectFill" @error="errFun" :src="baseUrl+childrenItem.headImg"></image>
     <view class="coverBac"></view>
     <view class="coverCon">
       <view class="title">
@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import {defineProps, ref} from "vue";
-import api from "@/utils/api";
+import {baseUrl} from "@/utils/config";
 
 const props = defineProps({
   item: {
@@ -36,7 +36,7 @@ const childrenItem = ref()
 
 // 图片加载失败时调用
 const errFun = () => {
-  childrenItem.value.headImg = api.mainUrl + '/defaultBac.png'
+  childrenItem.value.headImg = baseUrl + '/defaultBac.png'
 }
 
 // 跳转阅读
@@ -48,7 +48,7 @@ const goToRead = (id: number) => {
 }
 
 childrenItem.value = props.item
-childrenItem.value.headImg = api.mainUrl + props.item?.headImg
+childrenItem.value.headImg = baseUrl + props.item?.headImg
 </script>
 
 <style scoped lang="less">

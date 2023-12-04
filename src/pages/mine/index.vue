@@ -53,11 +53,6 @@ const login = () => {
               uni.hideToast()
               store.setProfile(res.result)
               userInfo.value = res.result;
-              setTimeout(() => {
-                uni.navigateTo({
-                  url: '/pages/index/index'
-                });
-              }, 1000)
             }
           })
           .catch(e => {

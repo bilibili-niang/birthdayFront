@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import {defineProps} from 'vue'
+import {defineProps, ref} from 'vue'
 import {baseUrl} from "@/utils/config.js";
+import customPopup from "@/components/common/customPopup/index.vue";
 
 const props = defineProps({
   info: {
@@ -16,8 +17,12 @@ const props = defineProps({
   }
 })
 
+let customPopupRef = ref()
 const userCardClick = () => {
-  console.log("userCardClick")
+  customPopupRef.value.show();
+}
+const goEditMein = () => {
+  uni.navigateTo({url: '/pages/mine/edit/index'})
 }
 
 </script>
@@ -37,14 +42,19 @@ const userCardClick = () => {
       </uni-card>
     </uni-section>
 
-    <uni-section title="操作" subTitle="编辑我的信息?" type="line">
-      <div class="ice-row">
-        <div class="mainBtn">
-          编辑
-        </div>
-      </div>
-    </uni-section>
 
+    <customPopup ref="customPopupRef">
+      <div class="ice-column layoutColumn">
+
+        <div class="ice-row layoutLine" @click="goEditMein">
+          <div class="icon">></div>
+          <div class="ice-text">
+            编辑我的信息
+          </div>
+        </div>
+
+      </div>
+    </customPopup>
   </div>
 </template>
 
@@ -53,5 +63,11 @@ const userCardClick = () => {
 .userCard{
   padding: 0 @padding-l;
   box-sizing: border-box;
+}
+.layoutColumn{
+  .layoutLine{
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 </style>

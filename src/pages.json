@@ -74,6 +74,14 @@
       }
     },
     {
+      "path": "pages/mine/edit/index",
+      "style": {
+        "enablePullDownRefresh": true,
+        "navigationBarTitleText": "编辑我的信息",
+        "onReachBottomDistance": 200
+      }
+    },
+    {
       "path": "pages/friend/detail/index",
       "style": {
         "enablePullDownRefresh": true,

@@ -3,5 +3,6 @@
 
 
 export const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:90" : "https://www.xyflash.top";
+// export const baseUrl = "https://www.xyflash.top";
 
-export const activeColor = "#ff4437";
+export const activeColor = "#72221c";

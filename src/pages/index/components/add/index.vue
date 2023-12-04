@@ -63,6 +63,12 @@ const submitFormData = async () => {
             customPopupRef.value.close()
             emits('close')
           }, 1500)
+        } else {
+          uni.showToast({
+            title: res.result.join(','),
+            duration: 1300,
+            icon: 'none'
+          });
         }
       })
       .catch(e => {
@@ -144,6 +150,7 @@ const cancelSubmit = () => {
   display: flex;
   flex-direction: row;
   width: 100%;
+  align-items: center;
 
   .title{
     width: 20%;

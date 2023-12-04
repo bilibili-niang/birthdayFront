@@ -3,6 +3,7 @@ import iceAvatar from '@/components/common/avatar'
 import {defineProps, ref} from 'vue'
 import {baseUrl} from "@/utils/config";
 import iceInput from '@/components/common/iceInput'
+import alertConfirm from "@/components/common/alertConfirm"
 
 const props = defineProps({
   item: {
@@ -31,6 +32,41 @@ const init = () => {
 const complete = () => {
   console.log(data.value)
 }
+// 点击生日展开日期选择面板
+let calendar = ref()
+// 当进入编辑时,保存最初始的数据
+let tempObj = ref()
+const showCanlender = () => {
+  if (props.mode === 'detail') {
+    console.log(props.mode)
+    return
+  } else {
+    calendar.value.open()
+    tempObj.value = JSON.parse(JSON.stringify(data.value))
+  }
+}
+const birthdayChange = (val: any) => {
+  let {lunar = null} = val
+  data.value.birthday = val.fulldate
+  if (lunar) {
+    data.value.lunaBirthday = lunar
+    data.value.animalSign = lunar.Animal
+    data.value.lunaBirthdayText = data.value.lunaBirthday?.IMonthCn + data.value.lunaBirthday?.IDayCn
+  }
+}
+
+let alertConfirmRef = ref()
+
+// 点击了重置,将data中的数据恢复到原来
+const resetData = () => {
+  console.log(alertConfirmRef.value)
+  alertConfirmRef.value.show()
+
+  if (tempObj.value) {
+    data.value = JSON.parse(JSON.stringify(tempObj.value))
+  }
+}
+
 init()
 </script>
 
@@ -43,22 +79,18 @@ init()
           名字:
         </div>
         <div class="lineLeft">
-          <!--<div class="ice-text" v-if="mode==='detail'">
-                      {{ data.name }}
-                    </div>-->
           <ice-input v-model="data.name" :disable="mode==='detail'"></ice-input>
-          <!--<uni-easyinput v-model="data.name" placeholder="名字" :disabled="mode==='detail'" v-else></uni-easyinput>-->
         </div>
       </div>
-      <div class="ice-row">
+      <div class="ice-row" @click="showCanlender">
         <div class="ice-tag">
           生日:
         </div>
         <div class="lineLeft">
-          <div class="ice-text" v-if="mode==='detail'">
-            {{ data.birthday }}
+          <!-- <ice-input v-model="data.birthday" disable></ice-input>-->
+          <div class="ice-text">
+            {{ data.cYear }}-{{ data.cMonth }}-{{ data.cDay }}
           </div>
-          <uni-easyinput v-model="data.birthday" placeholder="生日" :disabled="mode==='detail'" v-else></uni-easyinput>
         </div>
       </div>
       <div class="ice-row">
@@ -66,11 +98,10 @@ init()
           阴历生日:
         </div>
         <div class="lineLeft">
-          <div class="ice-text" v-if="mode==='detail'">
-            {{ data.lunaBirthday }}
+          <!-- <ice-input v-model="data.lunaBirthday" disable></ice-input>-->
+          <div class="ice-text">
+            {{ data.IMonthCn }}-{{ data.IDayCn }}
           </div>
-          <uni-easyinput v-model="data.lunaBirthday" placeholder="阳历生日" :disabled="mode==='detail'"
-                         v-else></uni-easyinput>
         </div>
       </div>
       <div class="ice-row">
@@ -78,11 +109,7 @@ init()
           生肖:
         </div>
         <div class="lineLeft">
-          <div class="ice-text" v-if="mode==='detail'">
-            {{ data.animalSign }}
-          </div>
-          <uni-easyinput v-model="data.animalSign" placeholder="生肖" :disabled="mode==='detail'"
-                         v-else></uni-easyinput>
+          <ice-input v-model="data.animalSign" disable></ice-input>
         </div>
       </div>
     </div>
@@ -92,11 +119,21 @@ init()
           完成
         </div>
         <div class="verticalBlock"></div>
-        <div class="mainBtn">
+        <div class="mainBtn" @click="resetData">
           重置
         </div>
       </div>
     </div>
+
+    <uni-calendar
+        ref="calendar"
+        :insert="false"
+        :showMonth="false"
+        lunar
+        @confirm="birthdayChange"
+    />
+
+    <alertConfirm ref="alertConfirmRef" text="确定要重置吗,这会丢失当前已经修改的"></alertConfirm>
 
   </div>
 </template>
@@ -120,6 +157,10 @@ init()
         height: 2.1rem;
         display: flex;
         align-items: center;
+
+        ice-input{
+          width: 100%;
+        }
       }
     }
   }

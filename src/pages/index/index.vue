@@ -10,7 +10,7 @@
               <div class="ice-row">
                 <div class="ice-tag">出生年月:</div>
                 <div class="ice-text">
-                  {{ item.birthday }}
+                  {{ item.cYear }}-{{ item.cMonth }}-{{ item.cDay }}
                 </div>
               </div>
             </uni-card>
@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import api from "@/utils/api";
-import {onPullDownRefresh, onReady} from "@dcloudio/uni-app";
+import {onPullDownRefresh, onReady, onShow} from "@dcloudio/uni-app";
 import dayjs from "dayjs";
 import {useMemberStore} from "@/stores";
 import Add from "./components/add/index.vue";
@@ -74,27 +74,28 @@ onReady(async () => {
   if (!token) {
     return false;
   } else {
-    await api.loginByToken()
+    await api.loginByToken(token)
         .then(res => {
           userFlag.value = true
           store.setProfile(res.result);
         })
   }
 })
-/*onShow(async () => {
+let onLoadFlag = ref(true)
+onShow(async () => {
+  if (!onLoadFlag.value) {
+    return false;
+  }
   const token = uni.getStorageSync("token");
   if (token) {
     await api.loginByToken(token)
         .then(res => {
-          console.log("res:")
-          console.log(res)
-        })
-        .catch(e => {
-          console.log("e:")
-          console.log(e)
+          userFlag.value = true
+          store.setProfile(res.result);
+          onLoadFlag.value = false
         })
   }
-})*/
+})
 
 /**
  * 获取联系人列表
