@@ -3,11 +3,16 @@
     <userCard :info="userInfo" v-if="userInfo"></userCard>
     <!-- 当前没有用户登录-->
     <view v-else>
-      <view class="text">当前没有用户登录</view>
-
-      <view class="mainBtn" @click="login">
-        login
-      </view>
+      <emptyData title="当前没有用户登录">
+        <div class="ice-row">
+          <div class="ice-text">
+            您可以选择:
+          </div>
+          <div class="mainBtn" @click="login">
+            login
+          </div>
+        </div>
+      </emptyData>
     </view>
 
   </div>
@@ -18,6 +23,8 @@ import userCard from './components/userCard/index.vue'
 import {ref} from "vue";
 import api from "@/utils/api";
 import {useMemberStore} from "@/stores";
+import emptyData from '@/components/common/emptyData'
+import {onPullDownRefresh} from "@dcloudio/uni-app";
 
 /**
  * 存储用户信息
@@ -46,7 +53,11 @@ const login = () => {
               uni.hideToast()
               store.setProfile(res.result)
               userInfo.value = res.result;
-              console.log("userInfo.value:", userInfo.value)
+              setTimeout(() => {
+                uni.navigateTo({
+                  url: '/pages/index/index'
+                });
+              }, 1000)
             }
           })
           .catch(e => {
@@ -66,19 +77,22 @@ const getUserInfo = () => {
     return false
   } else {
     userInfo.value = store.$state.profile
-    console.log(userInfo.value);
+    console.log(userInfo.value)
+    uni.stopPullDownRefresh();
   }
 }
 /**
  * 本地存储的有用户的登录信息时触发
  */
 getUserInfo()
-
+// 下拉再次获取数据
+onPullDownRefresh(() => {
+  getUserInfo()
+})
 </script>
 
 <style scoped lang="less">
 .mine{
   padding: @padding-n;
 }
-
 </style>

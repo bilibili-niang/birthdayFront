@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import api from "@/utils/api";
-import {onPullDownRefresh, onShow} from "@dcloudio/uni-app";
+import {onPullDownRefresh, onReady} from "@dcloudio/uni-app";
 import dayjs from "dayjs";
 import {useMemberStore} from "@/stores";
 import Add from "./components/add/index.vue";
@@ -69,19 +69,32 @@ let userList = ref<userObject[]>([
 let userFlag = ref(false)
 
 const store = useMemberStore();
-onShow(async () => {
+onReady(async () => {
   const token = uni.getStorageSync("token");
   if (!token) {
     return false;
+  } else {
+    await api.loginByToken()
+        .then(res => {
+          userFlag.value = true
+          store.setProfile(res.result);
+        })
   }
-  await api.loginByToken({
-    token
-  })
-      .then(res => {
-        userFlag.value = true
-        store.setProfile(res.result);
-      })
 })
+/*onShow(async () => {
+  const token = uni.getStorageSync("token");
+  if (token) {
+    await api.loginByToken(token)
+        .then(res => {
+          console.log("res:")
+          console.log(res)
+        })
+        .catch(e => {
+          console.log("e:")
+          console.log(e)
+        })
+  }
+})*/
 
 /**
  * 获取联系人列表

@@ -12,11 +12,11 @@ export default {
             method: 'POST'
         })
     },
-    async loginByToken(params: {}) {
+    async loginByToken(token: String) {
         return http<String[]>({
             url: '/api/wx/user/loginByToken',
-            data: params,
-            method: 'POST'
+            method: 'POST',
+            data: {token}
         })
     }
 }

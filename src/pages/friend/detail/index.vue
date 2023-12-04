@@ -73,7 +73,7 @@ const initAnimate = () => {
       </uni-transition>
 
       <div class="operate ice-column">
-        <uni-section title="操作" subTitle="编辑联系人信息?" type="line" padding>
+        <uni-section title="操作" subTitle="编辑联系人信息?" type="line">
           <div class="ice-row widthFit">
             <div class="mainBtn" @click="changeMode()">
               {{ mode === 'detail' ? '编辑' : '取消' }}

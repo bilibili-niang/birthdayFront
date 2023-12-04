@@ -27,7 +27,11 @@ const props = defineProps({
 })
 </script>
 <template>
-  <div class="ice-avatar">
+  <div class="ice-avatar"
+  :class="[
+      size==='s'?'noMargin':''
+  ]"
+  >
     <img :src="url" alt="" class="ice-avatar-image"
          :class="[
         'size-'+size,

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed, defineEmits, defineProps} from 'vue';
 
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:modelValue', 'clickTrigger'])
 const props = defineProps({
   modelValue: {
     type: [Number, String],
@@ -12,6 +12,17 @@ const props = defineProps({
   disable: {
     type: Boolean,
     default: false
+  },
+  /**
+   *  输入框右侧的icon
+   */
+  icon: {
+    type: String,
+    default: ''
+  },
+  placeholderText: {
+    type: String,
+    default: "请输入"
   }
 })
 
@@ -26,14 +37,18 @@ const handleChange = (e: any) => {
   if (value === nativeInputValue.value) return
   emits("update:modelValue", value)
 }
+const clickEmit = () => {
+  emits("clickTrigger")
+}
 </script>
 
 <template>
-  <div class="ice-input">
+  <div class="ice-input" @click="clickEmit">
     <div class="ice-text inputBlock" v-if="disable">
-      {{ nativeInputValue }}
+      {{ nativeInputValue || placeholderText }}
     </div>
     <input type="text" :value="nativeInputValue" :disable="disable"
+           :placeholder="placeholderText"
            @input="handleChange" class="inputContent ice-text" v-else>
   </div>
 </template>
@@ -46,7 +61,8 @@ ice-input{
   width: 100%;
 
   .inputBlock{
-    border-bottom: rgba(0, 0, 0, 0) 1px solid;
+    border-bottom: @fontColor-gray-bleak 1px solid;
+    color: @fontColor-gray-bleak;
   }
 
   .inputContent{

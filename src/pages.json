@@ -101,12 +101,12 @@
         "iconPath": "static/icon/home.png",
         "selectedIconPath": "static/icon/home-actived.png"
       },
-      {
+      /*{
         "pagePath": "pages/discovery/index",
         "text": "发现",
         "iconPath": "static/icon/discovery.png",
         "selectedIconPath": "static/icon/discovery-actived.png"
-      },
+      },*/
       {
         "pagePath": "pages/mine/index",
         "text": "我的",
