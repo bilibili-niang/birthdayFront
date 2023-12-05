@@ -69,7 +69,7 @@ const initAnimate = () => {
     <emptyData v-if="!data"></emptyData>
     <div class="ice-column friendLim" v-if="data">
       <uni-transition ref="ani" :mode-class="['fade']" :duration="900" show>
-        <friendDetail :item="data[0]?data[0]:data" timingFunction="ease" :mode="mode"></friendDetail>
+        <friendDetail :item="data[0]?data[0]:data" timingFunction="ease" :mode="mode" @update="init"></friendDetail>
       </uni-transition>
 
       <div class="operate ice-column">
@@ -103,6 +103,10 @@ const initAnimate = () => {
     .operate{
       background: @bacColor-bleak-bleak;
       border-radius: @radio-m;
+
+      .widthFit{
+        padding: @padding-n;
+      }
     }
   }
 }

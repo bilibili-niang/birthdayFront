@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import iceAvatar from '@/components/common/avatar'
-import {defineProps, ref} from 'vue'
+import {defineEmits, defineProps, ref} from 'vue'
 import {baseUrl} from "@/utils/config";
 import iceInput from '@/components/common/iceInput'
 import alertConfirm from "@/components/common/alertConfirm"
+import customPopup from "@/components/common/customPopup/index.vue";
+import api from "@/utils/api";
+import {resType} from "@/components/type/common";
 
 const props = defineProps({
   item: {
@@ -29,8 +32,21 @@ const init = () => {
 /**
  * 完成的提交
  */
-const complete = () => {
+const complete = async () => {
   console.log(data.value)
+  console.log(typeof data.value)
+  await api.updateFriendBirthday({
+    name: data.value.name,
+    lunaBirthday: data.value
+  })
+      .then(res => {
+        console.log("res:")
+        console.log(res)
+      })
+      .catch(e => {
+        console.log("e:")
+        console.log(e)
+      })
 }
 // 点击生日展开日期选择面板
 let calendar = ref()
@@ -59,21 +75,88 @@ let alertConfirmRef = ref()
 
 // 点击了重置,将data中的数据恢复到原来
 const resetData = () => {
-  console.log(alertConfirmRef.value)
   alertConfirmRef.value.show()
-
   if (tempObj.value) {
     data.value = JSON.parse(JSON.stringify(tempObj.value))
   }
 }
 
+let customPopupRef = ref()
+/**
+ * 头像被点击了
+ */
+const avatarClick = () => {
+  customPopupRef.value.show();
+}
+
+
+// 更换头像
+const chooseImage = () => {
+  uni.chooseImage({
+    count: 1,
+    async success(res) {
+      if (res.tempFilePaths.length > 0) {
+        let filePath = res.tempFilePaths[0]
+        uni.uploadFile({
+          url: baseUrl + '/file/upload', //仅为示例，非真实的接口地址
+          filePath: filePath,
+          name: 'file',
+          formData: {
+            'friendId': data.value.friendId
+          },
+          success: (uploadResult) => {
+            const res: resType = JSON.parse(uploadResult.data)
+            if (res.success) {
+              uni.showToast({
+                duration: 1300,
+                icon: 'none',
+                title: res.message
+              })
+              customPopupRef.value.close();
+              emits('update')
+            } else {
+              uni.showToast({
+                duration: 1300,
+                icon: 'none',
+                title: res.message
+              })
+            }
+          },
+          fail: (err) => {
+            console.log(err)
+          }
+        });
+
+
+      }
+
+
+    }
+
+  })
+
+}
+
+// 查看头像
+const checkAvatar = () => {
+  let imgsArray = [];
+  imgsArray[0] = baseUrl + props.item.avatar;
+  uni.previewImage({
+    current: 0,
+    urls: imgsArray
+  });
+}
+
+const emits = defineEmits(['update'])
 init()
 </script>
 
 <template>
   <div class="friendDetail">
     <div class="friendInfo ice-column ">
-      <iceAvatar :url="baseUrl+item.avatar" size="s"></iceAvatar>
+      <div class="avatarLim ice-row alignCenter" @click="avatarClick">
+        <iceAvatar :url="baseUrl+item.avatar"></iceAvatar>
+      </div>
       <div class="ice-row">
         <div class="ice-tag">
           名字:
@@ -124,7 +207,6 @@ init()
         </div>
       </div>
     </div>
-
     <uni-calendar
         ref="calendar"
         :insert="false"
@@ -132,8 +214,30 @@ init()
         lunar
         @confirm="birthdayChange"
     />
-
     <alertConfirm ref="alertConfirmRef" text="确定要重置吗,这会丢失当前已经修改的"></alertConfirm>
+    <!--底部的弹窗,头像点击触发-->
+
+    <customPopup ref="customPopupRef" height="40vh">
+      <div class="operateAvatar ice-column">
+        <div class="ice-row justBetween" @click="checkAvatar">
+          <div class="ice-tag">
+            >
+          </div>
+          <div class="mainBtn">
+            查看头像
+          </div>
+        </div>
+        <div class="transverseBlock"></div>
+        <div class="ice-row justBetween" @click="chooseImage">
+          <div class="ice-tag">
+            >
+          </div>
+          <div class="mainBtn">
+            更换头像
+          </div>
+        </div>
+      </div>
+    </customPopup>
 
   </div>
 </template>
@@ -147,6 +251,14 @@ init()
     padding: @padding-s-s;
     background: @bacColor-bleak-bleak;
     border-radius: @radio-m;
+
+    .avatarLim{
+      justify-content: center !important;
+      width: fit-content;
+      margin: @margin-m auto;
+      overflow: hidden;
+      transform: scale(1.2);
+    }
 
     .ice-row{
       justify-content: space-between;

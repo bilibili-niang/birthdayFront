@@ -1,10 +1,20 @@
 <!--自定义弹窗组件,支持slot-->
 <script lang="ts" setup>
-import {ref} from 'vue'
+import {defineProps, ref} from 'vue'
 
+ defineProps({
+  height: {
+    type: String,
+    default: '90vh'
+  }
+})
 const popupRef = ref()
-const show = () => {
-  popupRef.value.open('top')
+const show = (direction: string) => {
+  if (!direction) {
+    popupRef.value.open('top')
+  } else {
+    popupRef.value.open(direction)
+  }
 }
 const close = () => {
   popupRef.value.close()
@@ -16,12 +26,11 @@ defineExpose({
   close
 })
 </script>
-
 <template>
-  
   <uni-popup ref="popupRef" background-color="#fff">
-
-    <view class="popContainer">
+    <view class="popContainer" :style="{
+      'height':height
+    }">
       <slot></slot>
     </view>
   </uni-popup>
@@ -33,8 +42,6 @@ defineExpose({
 .popContainer{
   display: flex;
   flex-direction: column;
-  height: 90vh;
   padding: @padding-n;
-  //margin-top: 9vh;
 }
 </style>

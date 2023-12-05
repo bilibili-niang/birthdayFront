@@ -12,6 +12,11 @@ const props = defineProps({
   text: {
     type: String,
     default: '请确认操作'
+  },
+  // 弹窗类型,默认为警告
+  type: {
+    type: String,
+    default: 'danger'
   }
 })
 let showFlag = ref(false)
@@ -43,6 +48,7 @@ defineExpose({
     <div class="outLim"
          :class="[
         showFlag ? 'show' : 'hide',
+        type
     ]"
     >
       <div class="bacCover"></div>
@@ -94,6 +100,12 @@ defineExpose({
     z-index: 20;
   }
 
+  .danger{
+    .icon{
+      background: linear-gradient(to right bottom, @dangerColor 9%, transparent 20%) !important;
+    }
+  }
+
   .outLim{
     position: fixed;
     width: 100%;
@@ -119,7 +131,7 @@ defineExpose({
       width: 75vw;
       max-width: 400px;
       border-radius: @radio-m;
-      border: @borderColor 1px solid;
+      border: none;
       background: @bacColor;
       padding: @padding-n;
 

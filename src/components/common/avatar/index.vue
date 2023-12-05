@@ -28,7 +28,7 @@ const props = defineProps({
 </script>
 <template>
   <div class="ice-avatar"
-  :class="[
+       :class="[
       size==='s'?'noMargin':''
   ]"
   >
@@ -55,8 +55,8 @@ const props = defineProps({
   }
 
   .size-n{
-    width: 30vw;
-    height: 30vw;
+    width: 20vw;
+    height: 20vw;
   }
 
   .size-l{
@@ -67,6 +67,11 @@ const props = defineProps({
   .size-l-s{
     width: 45vw;
     height: 45vw;
+  }
+
+  .size-full{
+    width: 100%;
+    height: 100%;
   }
 
   .noRound{
