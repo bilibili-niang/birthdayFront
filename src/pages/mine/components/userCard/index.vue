@@ -25,6 +25,13 @@ const goEditMein = () => {
   uni.navigateTo({url: '/pages/mine/edit/index'})
 }
 
+const cleanStorage = () => {
+  uni.clearStorage()
+  // 重启
+  uni.reLaunch({
+    url: '/pages/mine/index'
+  })
+}
 </script>
 
 <template>
@@ -48,8 +55,15 @@ const goEditMein = () => {
 
         <div class="ice-row layoutLine" @click="goEditMein">
           <div class="icon">></div>
-          <div class="ice-text">
+          <div class="mainBtn">
             编辑我的信息
+          </div>
+        </div>
+
+        <div class="ice-row layoutLine">
+          <div class="icon">></div>
+          <div class="mainBtn" @click="cleanStorage">
+            clean
           </div>
         </div>
 
@@ -61,8 +75,9 @@ const goEditMein = () => {
 <style scoped lang="less">
 @import "src/static/css/variable.less";
 .userCard{
-  padding: 0 @padding-l;
+  padding: @padding-l;
   box-sizing: border-box;
+  border-radius: @padding-n;
 }
 .layoutColumn{
   .layoutLine{

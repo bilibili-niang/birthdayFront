@@ -3,16 +3,22 @@
     <userCard :info="userInfo" v-if="userInfo"></userCard>
     <!-- 当前没有用户登录-->
     <view v-else>
-      <emptyData title="当前没有用户登录">
-        <div class="ice-row">
+      <div class="nouserLogin ice-column">
+        <div class="ice-row white">
+          <div class="ice-text">
+            当前没有用户登录
+          </div>
+        </div>
+        <div class="ice-row white justBetween">
           <div class="ice-text">
             您可以选择:
           </div>
           <div class="mainBtn" @click="login">
-            login
+            登录
           </div>
         </div>
-      </emptyData>
+        <connectionUs></connectionUs>
+      </div>
     </view>
 
   </div>
@@ -23,8 +29,8 @@ import userCard from './components/userCard/index.vue'
 import {ref} from "vue";
 import api from "@/utils/api";
 import {useMemberStore} from "@/stores";
-import emptyData from '@/components/common/emptyData'
 import {onPullDownRefresh} from "@dcloudio/uni-app";
+import connectionUs from './components/connectionUs/index.vue'
 
 /**
  * 存储用户信息
@@ -41,7 +47,8 @@ const login = () => {
     duration: 1300
   })
   uni.login({
-    provider: 'weixin', //使用微信登录
+    //使用微信登录
+    provider: 'weixin',
     onlyAuthorize: true,
     success: async function (loginRes) {
       code.value = loginRes.code
@@ -89,5 +96,10 @@ onPullDownRefresh(() => {
 <style scoped lang="less">
 .mine{
   padding: @padding-n;
+}
+.nouserLogin{
+  padding: @padding-n;
+  border-radius: @radio-m;
+  background: @bacColor-bleak-bleak;
 }
 </style>

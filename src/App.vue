@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import {onHide, onLaunch, onShow} from "@dcloudio/uni-app";
-import api from "@/utils/api";
-import {useMemberStore} from "@/stores";
 
 onLaunch(() => {
 });
@@ -17,4 +15,10 @@ onHide(() => {
   margin-bottom: 10vh;
 }
 
+page{
+  //background: @bacColor-dark-bleak-bleak;
+}
+.uni-card{
+  border-radius: @radio-m !important;
+}
 </style>

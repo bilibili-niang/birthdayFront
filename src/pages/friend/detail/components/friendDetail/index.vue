@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import iceAvatar from '@/components/common/avatar'
-import {defineEmits, defineProps, ref} from 'vue'
+import {defineEmits, defineProps, ref, Ref} from 'vue'
 import {baseUrl} from "@/utils/config";
 import iceInput from '@/components/common/iceInput'
 import alertConfirm from "@/components/common/alertConfirm"
 import customPopup from "@/components/common/customPopup/index.vue";
 import api from "@/utils/api";
-import {resType} from "@/components/type/common";
+import {friendDetailInfo, resType} from "@/components/type/common";
 
 const props = defineProps({
   item: {
@@ -24,7 +24,7 @@ const props = defineProps({
     default: 'detail'
   }
 })
-let data = ref({})
+let data: Ref<friendDetailInfo> = ref({})
 const init = () => {
   data.value = props.item
 }
@@ -33,15 +33,21 @@ const init = () => {
  * 完成的提交
  */
 const complete = async () => {
-  console.log(data.value)
-  console.log(typeof data.value)
   await api.updateFriendBirthday({
     name: data.value.name,
     lunaBirthday: data.value
   })
       .then(res => {
-        console.log("res:")
-        console.log(res)
+        if (res.success) {
+          uni.showToast({
+            duration: 1300,
+            icon: 'none',
+            title: res?.message + ''
+          })
+          setTimeout(() => {
+            emits('update')
+          }, 1400)
+        }
       })
       .catch(e => {
         console.log("e:")
@@ -165,20 +171,40 @@ init()
           <ice-input v-model="data.name" :disable="mode==='detail'"></ice-input>
         </div>
       </div>
+      <div class="ice-row">
+        <div class="ice-tag">
+          关系:
+        </div>
+        <div class="lineLeft">
+          <ice-input v-model="data.relationship" :disable="mode==='detail'"></ice-input>
+        </div>
+      </div>
       <div class="ice-row" @click="showCanlender">
         <div class="ice-tag">
           生日:
         </div>
-        <div class="lineLeft">
-          <!-- <ice-input v-model="data.birthday" disable></ice-input>-->
+        <div class="ice-row justBetween birthdayLim" v-if="mode === 'edit'">
+          <div class="lineLeft">
+            <!-- <ice-input v-model="data.birthday" disable></ice-input>-->
+            <div class="ice-text">
+              {{ data.cYear }}-{{ data.cMonth }}-{{ data.cDay }}
+            </div>
+          </div>
+          <div class="ice-tag">
+            点击更改
+          </div>
+        </div>
+
+        <div class="lineLeft" v-else>
           <div class="ice-text">
             {{ data.cYear }}-{{ data.cMonth }}-{{ data.cDay }}
           </div>
         </div>
+
       </div>
       <div class="ice-row">
         <div class="ice-tag">
-          阴历生日:
+          阴历:
         </div>
         <div class="lineLeft">
           <!-- <ice-input v-model="data.lunaBirthday" disable></ice-input>-->
@@ -192,7 +218,15 @@ init()
           生肖:
         </div>
         <div class="lineLeft">
-          <ice-input v-model="data.animalSign" disable></ice-input>
+          <ice-input v-model="data.Animal" disable></ice-input>
+        </div>
+      </div>
+      <div class="ice-row">
+        <div class="ice-tag">
+          星座:
+        </div>
+        <div class="lineLeft">
+          <ice-input v-model="data.astro" disable></ice-input>
         </div>
       </div>
     </div>
@@ -216,7 +250,6 @@ init()
     />
     <alertConfirm ref="alertConfirmRef" text="确定要重置吗,这会丢失当前已经修改的"></alertConfirm>
     <!--底部的弹窗,头像点击触发-->
-
     <customPopup ref="customPopupRef" height="40vh">
       <div class="operateAvatar ice-column">
         <div class="ice-row justBetween" @click="checkAvatar">
@@ -238,7 +271,6 @@ init()
         </div>
       </div>
     </customPopup>
-
   </div>
 </template>
 
@@ -266,6 +298,7 @@ init()
 
       .lineLeft{
         width: 70%;
+        max-width: 70%;
         height: 2.1rem;
         display: flex;
         align-items: center;
@@ -274,6 +307,10 @@ init()
           width: 100%;
         }
       }
+    }
+
+    .birthdayLim{
+      width: 70%;
     }
   }
 

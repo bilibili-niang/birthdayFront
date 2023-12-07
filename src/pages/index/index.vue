@@ -3,19 +3,22 @@
     <!--展示联系人生日列表-->
     <view class="description">
       <view class="itemLim">
-        <uni-section title="联系人列表" type="line">
-          <view class="item" v-for="(item,index) in userList" :key="index" @click="friendDetail(item)">
-            <uni-card :title="item.name" :sub-title="'关系:'+item.relationship" :extra="'还有n天'"
-                      :thumbnail="baseUrl+item.avatar">
-              <div class="ice-row">
-                <div class="ice-tag">出生年月:</div>
-                <div class="ice-text">
-                  {{ item.cYear }}-{{ item.cMonth }}-{{ item.cDay }}
-                </div>
+        <div class="ice-row white">
+          <div class="ice-text">
+            联系人列表
+          </div>
+        </div>
+        <view class="item" v-for="(item,index) in userList" :key="index" @click="friendDetail(item)">
+          <uni-card :title="item.name" :sub-title="'关系:'+item.relationship" :extra="'还有n天'"
+                    :thumbnail="baseUrl+item.avatar">
+            <div class="ice-row">
+              <div class="ice-tag">出生年月:</div>
+              <div class="ice-text">
+                {{ item.cYear }}-{{ item.cMonth }}-{{ item.cDay }}
               </div>
-            </uni-card>
-          </view>
-        </uni-section>
+            </div>
+          </uni-card>
+        </view>
       </view>
     </view>
     <add v-if="userFlag" @close="addPopupClose"></add>
