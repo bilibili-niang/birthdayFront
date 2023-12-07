@@ -2,6 +2,7 @@
 import {defineProps, ref} from 'vue'
 import {baseUrl} from "@/utils/config.js";
 import customPopup from "@/components/common/customPopup/index.vue";
+import connectionUs from '../connectionUs/index.vue'
 
 const props = defineProps({
   info: {
@@ -49,7 +50,6 @@ const cleanStorage = () => {
       </uni-card>
     </uni-section>
 
-
     <customPopup ref="customPopupRef">
       <div class="ice-column layoutColumn">
 
@@ -66,8 +66,9 @@ const cleanStorage = () => {
             clean
           </div>
         </div>
-
       </div>
+
+      <connectionUs/>
     </customPopup>
   </div>
 </template>
