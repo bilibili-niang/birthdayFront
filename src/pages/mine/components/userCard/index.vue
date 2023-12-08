@@ -41,14 +41,23 @@ const cleanStorage = () => {
       <uni-card :title="info?.name" :isFull="true" sub-title="暂无" extra="操作"
                 :thumbnail="baseUrl+info?.avatar" @click="userCardClick">
         <!-- <text class="uni-body">-->
-        <div class="ice-column">
-          <div class="ice-row alignCenter">
-            <div class="ice-tag">生日:</div>
-            {{ info?.birthday || '-' }}
-          </div>
-        </div>
+        text
       </uni-card>
     </uni-section>
+
+    <div class="userInfo ice-column">
+
+      <div class="ice-row white justBetween">
+        <div class="ice-text">手机号:</div>
+        <div class="ice-text">{{ info?.phone || '-' }}</div>
+      </div>
+
+      <div class="ice-row white justBetween">
+        <div class="ice-text">生日:</div>
+        <div class="ice-text">{{ info?.birthday || '-' }}</div>
+      </div>
+
+    </div>
 
     <customPopup ref="customPopupRef">
       <div class="ice-column layoutColumn">

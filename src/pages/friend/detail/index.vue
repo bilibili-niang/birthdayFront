@@ -29,6 +29,8 @@ const init = async () => {
         uni.stopPullDownRefresh();
         if (res.success) {
           data.value = res.result
+          console.log(res.result)
+          mode.value = 'detail'
         }
       })
       .catch(e => {
@@ -55,12 +57,6 @@ const changeMode = () => {
 // 动画
 let ani = ref()
 
-const initAnimate = () => {
-  console.log("initAnimate")
-}
-/*onReady(() => {
-  initAnimate()
-})*/
 </script>
 
 <template>

@@ -14,7 +14,7 @@ export default {
      */
     async submitMessage(text: string) {
         return http<String>({
-            url: '/api/message',
+            url: '/api/wx/log/message',
             data: {
                 text
             },

@@ -9,12 +9,13 @@
           </div>
         </div>
         <view class="item" v-for="(item,index) in userList" :key="index" @click="friendDetail(item)">
-          <uni-card :title="item.name" :sub-title="'关系:'+item.relationship" :extra="'还有n天'"
+          <uni-card :title="item.name" :sub-title="'关系:'+(item.relationship||'-')"
+                    :extra="'距离生日还有'+getDaysToBirthday(item.cMonth,item.cDay)+'天'"
                     :thumbnail="baseUrl+item.avatar">
             <div class="ice-row">
-              <div class="ice-tag">出生年月:</div>
+              <div class="ice-tag">生日:</div>
               <div class="ice-text">
-                {{ item.cYear }}-{{ item.cMonth }}-{{ item.cDay }}
+                {{ item.cMonth }}-{{ item.cDay }}
               </div>
             </div>
           </uni-card>
@@ -26,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import api from "@/utils/api";
 import {onPullDownRefresh, onReady, onShow} from "@dcloudio/uni-app";
 import dayjs from "dayjs";
@@ -96,6 +97,7 @@ onShow(async () => {
           userFlag.value = true
           store.setProfile(res.result);
           onLoadFlag.value = false
+          getPeopleList()
         })
   }
 })
@@ -136,6 +138,29 @@ const addPopupClose = () => {
   userFlag.value = !userFlag.value
 }
 getPeopleList()
+/**
+ * 计算距离天数
+ */
+const distanceDays = computed(() => {
+  return getDaysToBirthday()
+
+})
+//给出生日的月份和日期，计算还有多少天过生日
+const getDaysToBirthday = (month: number, day: number) => {
+  const nowTime: any = new Date();
+  const thisYear = nowTime.getFullYear();
+  //今年的生日
+  const birthday: any = new Date(thisYear, month - 1, day);
+
+  //今年生日已过，则计算距离明年生日的天数
+  if (birthday < nowTime) {
+    birthday.setFullYear(nowTime.getFullYear() + 1);
+  }
+  const timeDec = birthday - nowTime;
+  const days = timeDec / (24 * 60 * 60 * 1000);
+  return Math.ceil(days);
+}
+
 </script>
 
 <style scoped lang="less">

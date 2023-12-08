@@ -12,7 +12,7 @@ export default {
             method: 'POST'
         })
     },
-    async loginByToken(token: String) {
+    async loginByToken(token?: string) {
         return http<String[]>({
             url: '/api/wx/user/loginByToken',
             method: 'POST',

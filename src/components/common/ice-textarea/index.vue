@@ -42,7 +42,7 @@ const clickEmit = () => {
   padding: @padding-s;
 
   .inputArea{
-    color: @fontColor-white;
+    color: @fontColor;
     display: flex;
     flex: 1;
     font-size: @font-m;

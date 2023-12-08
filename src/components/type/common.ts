@@ -36,4 +36,29 @@ export type friendDetailInfo = {
     createdAt?: string;
     updatedAt?: string;
 }
-
+// 我的用户数据返回数据类型
+export interface userInfo {
+	id: number;
+	randomId: string;
+	name: string;
+	phone?: any;
+	password: string;
+	realName?: any;
+	idIdentify?: any;
+	avatar: string;
+	sex: string;
+	email?: any;
+	vipType?: any;
+	vipLevel?: any;
+	vipExp?: any;
+	vipStatus?: any;
+	vipStartTime?: any;
+	vipEndTime?: any;
+	regSource?: any;
+	birthday?: any;
+	lunaBirthday?: any;
+	createdAt: string;
+	updatedAt: string;
+	iat: number;
+	exp: number;
+}

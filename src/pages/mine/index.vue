@@ -51,11 +51,15 @@ const login = () => {
     provider: 'weixin',
     onlyAuthorize: true,
     success: async function (loginRes) {
+      console.log("loginRes")
+      console.log(loginRes);
       code.value = loginRes.code
       await api.login({
         code: code.value
       })
           .then(res => {
+            console.log('res')
+            console.log(res);
             if (res.result) {
               uni.hideToast()
               store.setProfile(res.result)
@@ -75,7 +79,18 @@ const login = () => {
 }
 
 const getUserInfo = () => {
+
+  const token = uni.getStorageSync("token");
+  console.log("token:")
+  console.log(token)
+
   if (!store.$state.profile) {
+    uni.showToast({
+      duration: 1300,
+      icon: 'none',
+      title: '当前没有用户登录'
+    })
+    uni.stopPullDownRefresh();
     return false
   } else {
     userInfo.value = store.$state.profile

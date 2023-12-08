@@ -120,6 +120,7 @@ const chooseImage = () => {
               })
               customPopupRef.value.close();
               emits('update')
+              // 重新获取当前用户数据
             } else {
               uni.showToast({
                 duration: 1300,
@@ -227,6 +228,14 @@ init()
         </div>
         <div class="lineLeft">
           <ice-input v-model="data.astro" disable></ice-input>
+        </div>
+      </div>
+      <div class="ice-row">
+        <div class="ice-tag">
+          手机号:
+        </div>
+        <div class="lineLeft">
+          <ice-input v-model="data.phone"></ice-input>
         </div>
       </div>
     </div>
