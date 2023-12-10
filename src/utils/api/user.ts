@@ -18,5 +18,12 @@ export default {
             method: 'POST',
             data: {token}
         })
+    },
+    async decryptPhone(params: object) {
+        return http<String[]>({
+            url: '/api/wx/user/decryptPhone',
+            method: 'POST',
+            data: params
+        })
     }
 }

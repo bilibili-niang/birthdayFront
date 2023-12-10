@@ -36,19 +36,32 @@ const birthdayChange = (val: any) => {
     formData.value.lunaBirthdayText = formData.value.lunaBirthday?.IMonthCn + formData.value.lunaBirthday?.IDayCn
   }
 }
+// 是否允许提交
+let allowFlag = ref(true)
 /**
  * 提交
  */
 const submitFormData = async () => {
+  console.log(allowFlag.value)
+  if (!allowFlag.value) {
+    return
+  }
+  allowFlag.value = false
   const data = JSON.parse(JSON.stringify(formData.value))
   const verifyRes = flow.verify(data, ['name', 'birthday', 'lunaBirthday'])
-  console.log(data)
+  uni.showToast({
+    title: '添加中',
+    icon: 'none'
+  });
   if (!verifyRes.flag) {
     uni.showToast({
       duration: 1300,
       icon: 'none',
-      title: (verifyRes.result).join(',')
+      mask: true,
+      title: '请选择生日'
+      // title: (verifyRes.result).join(',')
     })
+    allowFlag.value = true
     return false;
   }
   await api.addBirthday(data)
@@ -56,24 +69,28 @@ const submitFormData = async () => {
         if (res.success) {
           uni.showToast({
             title: '添加成功',
-            duration: 1300,
             icon: 'success'
           });
           setTimeout(() => {
+            uni.hideToast();
             customPopupRef.value.close()
             emits('close')
           }, 1500)
         } else {
+          // 添加失败
+          console.log(res)
           uni.showToast({
-            title: res.result.join(','),
-            duration: 1300,
+            title: (res.message + ''),
+            duration: 2000,
             icon: 'none'
           });
         }
+        allowFlag.value = true
       })
       .catch(e => {
         console.log("e:")
         console.log(e)
+        allowFlag.value = true
       })
 }
 const emits = defineEmits(['close'])
