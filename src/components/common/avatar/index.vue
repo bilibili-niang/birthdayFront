@@ -25,6 +25,14 @@ const props = defineProps({
     default: false
   }
 })
+const imgOnError = (e: any) => {
+  console.log('onerror 触发了')
+  let img = e.srcElement;
+  img.src = '/images/avatar.png';
+  img.onerror = null;
+  //防止闪图
+}
+
 </script>
 <template>
   <div class="ice-avatar"

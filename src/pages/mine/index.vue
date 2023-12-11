@@ -51,24 +51,16 @@ const login = () => {
     provider: 'weixin',
     onlyAuthorize: true,
     success: async function (loginRes) {
-      console.log("loginRes")
-      console.log(loginRes);
       code.value = loginRes.code
       await api.login({
         code: code.value
       })
           .then(res => {
-            console.log('res')
-            console.log(res);
             if (res.result) {
               uni.hideToast()
               store.setProfile(res.result)
               userInfo.value = res.result;
             }
-          })
-          .catch(e => {
-            console.log("e:")
-            console.log(e)
           })
     },
     fail: function (err) {

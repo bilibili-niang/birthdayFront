@@ -59,6 +59,7 @@ ice-input{
 }
 .ice-input{
   width: 100%;
+  min-width: 40vw;
 
   .inputBlock{
     border-bottom: @fontColor-gray-bleak 1px solid;

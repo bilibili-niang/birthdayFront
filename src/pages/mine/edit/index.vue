@@ -2,11 +2,11 @@
 import {ref, Ref} from "vue"
 import api from "@/utils/api";
 import {baseUrl} from "@/utils/config";
-import {userInfo} from "@/components/type/common";
+import {resType, userInfo} from "@/components/type/common";
 import iceAvatar from '@/components/common/avatar'
 import iceInput from '@/components/common/iceInput'
-import {onLoad} from "@dcloudio/uni-app"
-// import WXBizDataCrypt from "@/static/js/WXBizDataCrypt.js";
+import {onLoad, onPullDownRefresh} from "@dcloudio/uni-app"
+import customPopup from "@/components/common/customPopup/index.vue";
 
 let data: Ref<userInfo> = ref({
   id: '',
@@ -33,9 +33,70 @@ const init = async () => {
         console.log(e)
       })
 }
+let customPopupRef = ref()
+/**
+ * 头像被点击了
+ */
 const avatarClick = () => {
+  customPopupRef.value.show();
 }
 let mode = ref('detail')
+// 查看头像
+const checkAvatar = () => {
+  let imgsArray = [];
+  imgsArray[0] = baseUrl + data.value.avatar;
+  uni.previewImage({
+    current: 0,
+    urls: imgsArray
+  });
+}
+// 更换头像
+const chooseImage = () => {
+  uni.chooseImage({
+    count: 1,
+    async success(res) {
+      if (res.tempFilePaths.length > 0) {
+        let filePath = res.tempFilePaths[0]
+        uni.uploadFile({
+          url: baseUrl + '/file/upload', //仅为示例，非真实的接口地址
+          filePath: filePath,
+          name: 'file',
+          formData: {
+            'friendId': '0'
+          },
+          success: (uploadResult) => {
+            const res: resType = JSON.parse(uploadResult.data)
+            if (res.success) {
+              uni.showToast({
+                duration: 1300,
+                icon: 'none',
+                title: res.message
+              })
+              customPopupRef.value.close();
+              emits('update')
+              // 重新获取当前用户数据
+            } else {
+              uni.showToast({
+                duration: 1300,
+                icon: 'none',
+                title: res.message
+              })
+            }
+          },
+          fail: (err) => {
+            console.log(err)
+          }
+        });
+
+
+      }
+
+
+    }
+
+  })
+
+}
 
 init()
 /**
@@ -44,7 +105,6 @@ init()
 const onGetPhoneNumber = async (e: any) => {
   if (e.detail.errMsg == "getPhoneNumber:fail user deny") {
     //用户决绝授权
-    //拒绝授权后弹出一些提示
     uni.showToast({
       title: '用户取消授权',
       icon: 'loading',
@@ -52,18 +112,29 @@ const onGetPhoneNumber = async (e: any) => {
     })
   } else {
     //允许授权
-    console.log('e:')
-    console.log(e)
-    console.log("e.detail")
-    console.log(e.detail)
     await api.decryptPhone({
       encryptedData: e.detail.encryptedData,
       iv: e.detail.iv,
       openId: openId.value
     })
         .then(res => {
-          console.log("res:")
-          console.log(res)
+          if (res.success) {
+            init();
+            uni.showToast({
+              title: res.message,
+              icon: 'success',
+              duration: 1300
+            })
+            /**
+             * 重新获取用户数据
+             */
+          } else {
+            uni.showToast({
+              title: res.message,
+              icon: 'error',
+              duration: 1300
+            })
+          }
         })
         .catch(e => {
           console.log("e:")
@@ -83,9 +154,14 @@ const getUserNew = () => {
       openId.value = res.code
     }
   });
+  uni.stopPullDownRefresh();
 }
 onLoad(() => {
   getUserNew();
+})
+
+onPullDownRefresh(() => {
+  init();
 })
 </script>
 
@@ -118,8 +194,8 @@ onLoad(() => {
           手机号:
         </div>
         <div class="lineLeft">
-          <!-- <div class="ice-text" @getphonenumber="onGetPhoneNumber" open-type="getPhoneNumber" v-if="!data.phone"> 点击获取手机号 </div> <ice-input v-model="data.phone" :disable="mode==='detail'" v-else></ice-input>-->
-          <div class="ice-text">
+          <div class="ice-text" v-if="data.phone"> {{ data.phone }}</div>
+          <div class="ice-text" v-else>
             <button open-type="getPhoneNumber" @getphonenumber="onGetPhoneNumber">唤起授权</button>
           </div>
         </div>
@@ -145,13 +221,30 @@ onLoad(() => {
           {{ data.birthday }}
         </div>
       </div>
-
-
     </div>
 
-
-    编辑我的信息
-    {{ data }}
+    <!--底部的弹窗,头像点击触发-->
+    <customPopup ref="customPopupRef" height="40vh">
+      <div class="operateAvatar ice-column">
+        <div class="ice-row justBetween" @click="checkAvatar">
+          <div class="ice-tag">
+            >
+          </div>
+          <div class="mainBtn">
+            查看头像
+          </div>
+        </div>
+        <div class="transverseBlock"></div>
+        <div class="ice-row justBetween" @click="chooseImage">
+          <div class="ice-tag">
+            >
+          </div>
+          <div class="mainBtn">
+            更换头像
+          </div>
+        </div>
+      </div>
+    </customPopup>
 
   </div>
 </template>
@@ -161,5 +254,9 @@ onLoad(() => {
   .userEditForm{
     padding: 0 @padding-l;
   }
+
+  /*.operateAvatar{
+    padding: 0 @padding-l;
+  }*/
 }
 </style>

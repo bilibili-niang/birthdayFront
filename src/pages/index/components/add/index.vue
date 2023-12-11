@@ -42,7 +42,6 @@ let allowFlag = ref(true)
  * 提交
  */
 const submitFormData = async () => {
-  console.log(allowFlag.value)
   if (!allowFlag.value) {
     return
   }
@@ -78,7 +77,6 @@ const submitFormData = async () => {
           }, 1500)
         } else {
           // 添加失败
-          console.log(res)
           uni.showToast({
             title: (res.message + ''),
             duration: 2000,
@@ -88,7 +86,6 @@ const submitFormData = async () => {
         allowFlag.value = true
       })
       .catch(e => {
-        console.log("e:")
         console.log(e)
         allowFlag.value = true
       })
