@@ -40,7 +40,7 @@ let customPopupRef = ref()
 const avatarClick = () => {
   customPopupRef.value.show();
 }
-let mode = ref('detail')
+let mode = ref('edit')
 // 查看头像
 const checkAvatar = () => {
   let imgsArray = [];
@@ -163,6 +163,21 @@ onLoad(() => {
 onPullDownRefresh(() => {
   init();
 })
+// 是否阻塞
+let obstruct = ref(false)
+const saveData = () => {
+  if (!obstruct) {
+    return false;
+  } else {
+    submit()
+  }
+}
+const submit = () => {
+  obstruct.value = true
+  console.log(data.value)
+
+
+}
 </script>
 
 <template>
@@ -219,6 +234,11 @@ onPullDownRefresh(() => {
         </div>
         <div class="lineLeft">
           {{ data.birthday }}
+        </div>
+      </div>
+      <div class="buttomBtns">
+        <div class="mainBtn" @click="saveData">
+          保存
         </div>
       </div>
     </div>
