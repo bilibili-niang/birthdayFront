@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import {defineProps} from 'vue'
+import {defineProps, ref} from 'vue'
+import {baseUrl} from "@/utils/config";
 
 const props = defineProps({
   url: {
@@ -25,12 +26,18 @@ const props = defineProps({
     default: false
   }
 })
-const imgOnError = (e: any) => {
-  console.log('onerror 触发了')
-  let img = e.srcElement;
-  img.src = '/images/avatar.png';
-  img.onerror = null;
-  //防止闪图
+let itemData = ref({})
+const init = () => {
+  itemData.value = (JSON.parse(JSON.stringify(props)))
+}
+init();
+/**
+ * 图片的ref,用来移除 onerror 事件
+ */
+let imgController = ref()
+let imgOnError = () => {
+  itemData.value.url = baseUrl + '/images/avatar.png';
+  imgOnError = null
 }
 
 </script>
@@ -40,11 +47,14 @@ const imgOnError = (e: any) => {
       size==='s'?'noMargin':''
   ]"
   >
-    <img :src="url" alt="" class="ice-avatar-image"
+    <img :src="itemData.url" alt="" class="ice-avatar-image"
          :class="[
-        'size-'+size,
-        round?'round':'noRound'
-    ]">
+        'size-'+itemData.size,
+        itemData.round?'round':'noRound'
+    ]"
+         ref="imgController"
+         @error="imgOnError"
+    >
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
   <view class="container">
     <!--展示联系人生日列表-->
-    <view class="description">
+    <view class="description" v-if="userFlag">
       <view class="itemLim">
         <div class="ice-row white">
           <div class="ice-text">
@@ -22,6 +22,8 @@
         </view>
       </view>
     </view>
+    <emptyData title="当前没有用户登录" v-else></emptyData>
+
     <add v-if="userFlag" @close="addPopupClose"></add>
   </view>
 </template>
@@ -34,6 +36,7 @@ import dayjs from "dayjs";
 import {useMemberStore} from "@/stores";
 import Add from "./components/add/index.vue";
 import {baseUrl} from "@/utils/config";
+import emptyData from '@/components/common/emptyData/index.vue'
 
 let loopItem = ref<any>([])
 

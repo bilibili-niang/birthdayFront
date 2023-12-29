@@ -8,6 +8,7 @@ import api from "@/utils/api";
 let customPopupRef = ref()
 
 const showPopup = () => {
+  console.log(customPopupRef.value);
   customPopupRef.value.show()
 }
 let text: Ref<string> = ref('')
@@ -36,40 +37,24 @@ const submit = async () => {
 
 <template>
   <div class="connectionsUs">
-    <div class="ice-column">
-
-      <div class="ice-row justBetween white">
-        <div class="ice-tag">联系我们</div>
+    <div class="ice-row justBetween white">
+      <div class="ice-tag">建议?</div>
+      <div class="mainBtn" @click="showPopup">
+        留言
+      </div>
+    </div>
+    <!--从上到下的弹窗-->
+    <customPopup ref="customPopupRef" height="70vh">
+      <div class="ice-row justBetween">
+        <div class="ice-tag">通过邮箱?</div>
         <div class="ice-text">
           killicestone@126.com
         </div>
       </div>
-      <div class="ice-column justBetween white">
-        <div class="ice-tag">或者</div>
-        <!-- <div class="mainBtn" @click="showPopup">
-                  留言
-                </div>-->
 
-        <div class="ice-column">
-          <div class="ice-text">
-            建议?留言?
-          </div>
-          <ice-textarea v-model="text"></ice-textarea>
-        </div>
-        <div class="transverseBlock"></div>
-        <div class="ice-row">
-          <div class="mainBtn" @click="submit">
-            提交
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!--从上到下的弹窗-->
-    <customPopup ref="customPopupRef" height="70vh">
       <div class="ice-column">
         <div class="ice-text">
-          建议?留言?
+          留言?
         </div>
         <ice-textarea :value="text"></ice-textarea>
       </div>
@@ -79,7 +64,6 @@ const submit = async () => {
           提交
         </div>
       </div>
-
     </customPopup>
 
   </div>

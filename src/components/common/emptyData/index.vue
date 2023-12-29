@@ -13,7 +13,7 @@ const props = defineProps({
 
 <template>
   <div class="emptyData">
-    <div class="ice-text">
+    <div class="ice-text ice-row justCenter">
       {{ title }}
     </div>
     <div class="emptyIcon">
