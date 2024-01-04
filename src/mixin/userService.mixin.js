@@ -17,8 +17,6 @@ export const loginByLocalToken = async () => {
     token
   })
     .then(res => {
-      console.log("存入store");
-      console.log("res.result", res.result);
       const store = useMemberStore();
       store.setProfile(res.result);
     })

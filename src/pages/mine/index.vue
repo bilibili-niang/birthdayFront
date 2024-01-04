@@ -21,6 +21,7 @@
       </div>
     </view>
 
+
   </div>
 </template>
 
@@ -70,13 +71,12 @@ const login = () => {
   })
 }
 
-const getUserInfo = () => {
-
-  const token = uni.getStorageSync("token");
+const getUserInfo = async () => {
+  const token: string = uni.getStorageSync("token");
   console.log("token:")
   console.log(token)
 
-  if (!store.$state.profile) {
+  if (!token) {
     uni.showToast({
       duration: 1300,
       icon: 'none',
@@ -85,8 +85,11 @@ const getUserInfo = () => {
     uni.stopPullDownRefresh();
     return false
   } else {
-    userInfo.value = store.$state.profile
-    console.log(userInfo.value)
+    await api.loginByToken(token)
+        .then(res => {
+          store.setProfile(res.result);
+          userInfo.value = res.result;
+        })
     uni.stopPullDownRefresh();
   }
 }

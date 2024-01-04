@@ -9,16 +9,28 @@
           </div>
         </div>
         <view class="item" v-for="(item,index) in userList" :key="index" @click="friendDetail(item)">
-          <uni-card :title="item.name" :sub-title="'关系:'+(item.relationship||'-')"
-                    :extra="'距离生日还有'+getDaysToBirthday(item.cMonth,item.cDay)+'天'"
-                    :thumbnail="baseUrl+item.avatar">
+          <friendCard :avatar="baseUrl+item?.avatar" :bacColor="cardColor">
+            <div class="ice-row justBetween">
+              <div class="ice-text-l fontW-l">
+                {{ item.name }}
+              </div>
+              <div class="ice-text">
+                关系:
+                {{ item.relationship || '-' }}
+              </div>
+            </div>
+            <div class="ice-text">
+              下一次生日:
+              {{ getDaysToBirthday(item.cMonth, item.cDay) }}天
+            </div>
             <div class="ice-row">
               <div class="ice-tag">生日:</div>
               <div class="ice-text">
                 {{ item.cMonth }}-{{ item.cDay }}
               </div>
             </div>
-          </uni-card>
+          </friendCard>
+
         </view>
       </view>
     </view>
@@ -35,8 +47,9 @@ import {onPullDownRefresh, onReady, onShow} from "@dcloudio/uni-app";
 import dayjs from "dayjs";
 import {useMemberStore} from "@/stores";
 import Add from "./components/add/index.vue";
-import {baseUrl} from "@/utils/config";
 import emptyData from '@/components/common/emptyData/index.vue'
+import friendCard from './components/friendCard/index.vue'
+import {baseUrl, cardBorderColor, cardColor} from "@/utils/config";
 
 let loopItem = ref<any>([])
 

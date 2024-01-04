@@ -5,6 +5,7 @@ import {ref, Ref} from 'vue'
 import api from "@/utils/api";
 import emptyData from "@/components/common/emptyData"
 import friendDetail from "./components/friendDetail/index.vue"
+import {cardColor} from "@/utils/config";
 
 let friendId: Ref<String> = ref('')
 onLoad((data: any) => {
@@ -61,11 +62,10 @@ let ani = ref()
 
 <template>
   <div class="friendDetail">
-
     <emptyData v-if="!data"></emptyData>
     <div class="ice-column friendLim" v-if="data">
       <uni-transition ref="ani" :mode-class="['fade']" :duration="900" show>
-        <friendDetail :item="data[0]?data[0]:data" timingFunction="ease" :mode="mode" @update="init"></friendDetail>
+        <friendDetail :item="data[0]?data[0]:data" :bacColor="cardColor" timingFunction="ease" :mode="mode" @update="init"></friendDetail>
       </uni-transition>
 
       <div class="operate ice-column">

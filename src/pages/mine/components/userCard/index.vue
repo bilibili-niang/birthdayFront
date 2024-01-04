@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import {defineProps, ref} from 'vue'
-import {baseUrl} from "@/utils/config.js";
+import {baseUrl, cardColor} from "@/utils/config.js";
 import customPopup from "@/components/common/customPopup/index.vue";
 import connectionUs from '../connectionUs/index.vue'
+import friendCard from '../../../index/components/friendCard/index.vue'
 
 const props = defineProps({
   info: {
@@ -37,13 +38,20 @@ const cleanStorage = () => {
 
 <template>
   <div class="userCard">
-    <uni-section title="关于我" type="line">
-      <uni-card :title="info?.name" :isFull="true" sub-title="暂无" extra="操作"
-                :thumbnail="baseUrl+info?.avatar" @click="userCardClick">
-        <!-- <text class="uni-body">-->
-        text
-      </uni-card>
-    </uni-section>
+    <div class="ice-row white">
+      <div class="ice-text">
+        关于我
+      </div>
+    </div>
+
+
+    <friendCard :avatar="baseUrl+info?.avatar" :bacColor="cardColor" @click="userCardClick">
+      <div class="ice-row justBetween">
+        <div class="ice-text-l">
+          {{ info.name }}
+        </div>
+      </div>
+    </friendCard>
 
     <div class="userInfo ice-column">
 
@@ -85,9 +93,8 @@ const cleanStorage = () => {
 <style scoped lang="less">
 @import "src/static/css/variable.less";
 .userCard{
-  padding: @padding-l;
   box-sizing: border-box;
-  border-radius: @padding-n;
+  border-radius: @radio-m;
 }
 .layoutColumn{
   .layoutLine{

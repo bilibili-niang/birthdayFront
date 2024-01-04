@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import iceAvatar from '@/components/common/avatar'
 import {defineEmits, defineProps, ref, Ref} from 'vue'
-import {baseUrl} from "@/utils/config";
+import {baseUrl, cardColor} from "@/utils/config";
 import iceInput from '@/components/common/iceInput'
 import alertConfirm from "@/components/common/alertConfirm"
 import customPopup from "@/components/common/customPopup/index.vue";
@@ -133,11 +133,7 @@ const chooseImage = () => {
             console.log(err)
           }
         });
-
-
       }
-
-
     }
 
   })
@@ -160,7 +156,7 @@ init()
 
 <template>
   <div class="friendDetail">
-    <div class="friendInfo ice-column ">
+    <div class="friendInfo ice-column" :style="{ 'backgroundColor': cardColor }">
       <div class="avatarLim ice-row alignCenter" @click="avatarClick">
         <iceAvatar :url="baseUrl+item.avatar"></iceAvatar>
       </div>
@@ -290,7 +286,6 @@ init()
 
   .friendInfo{
     padding: @padding-s-s;
-    background: @bacColor-bleak-bleak;
     border-radius: @radio-m;
 
     .avatarLim{

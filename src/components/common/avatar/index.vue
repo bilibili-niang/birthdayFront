@@ -36,8 +36,9 @@ init();
  */
 let imgController = ref()
 let imgOnError = () => {
+  console.log('onerror')
   itemData.value.url = baseUrl + '/images/avatar.png';
-  imgOnError = null
+  imgOnError = () => void (0);
 }
 
 </script>
@@ -62,14 +63,16 @@ let imgOnError = () => {
 .ice-avatar{
   display: flex;
   margin: @margin-m;
+  width: fit-content;
+  height: fit-content;
 
   .ice-avatar-image{
     display: flex;
   }
 
   .size-s{
-    width: 3rem;
-    height: 3rem;
+    width: 17vw;
+    height: 17vw;
   }
 
   .size-n{
@@ -99,7 +102,5 @@ let imgOnError = () => {
   .round{
     border-radius: 50%;
   }
-
 }
-
 </style>
