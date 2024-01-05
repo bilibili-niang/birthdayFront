@@ -3,7 +3,7 @@ import {defineProps, ref} from 'vue'
 import {baseUrl, cardColor} from "@/utils/config.js";
 import customPopup from "@/components/common/customPopup/index.vue";
 import connectionUs from '../connectionUs/index.vue'
-import friendCard from '../../../index/components/friendCard/index.vue'
+import friendCard from '@/pages/index/components/friendCard/index.vue'
 
 const props = defineProps({
   info: {
@@ -67,7 +67,7 @@ const cleanStorage = () => {
 
     </div>
 
-    <customPopup ref="customPopupRef">
+    <customPopup ref="customPopupRef" height="70vh">
       <div class="ice-column layoutColumn">
 
         <div class="ice-row layoutLine" @click="goEditMein">

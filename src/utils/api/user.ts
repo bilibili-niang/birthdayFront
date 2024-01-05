@@ -25,5 +25,12 @@ export default {
             method: 'POST',
             data: params
         })
+    },
+    async updateUserInfo(params: object){
+        return http<String[]>({
+            url: '/api/wx/user/update',
+            method: 'POST',
+            data: params
+        })
     }
 }

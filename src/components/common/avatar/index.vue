@@ -26,19 +26,11 @@ const props = defineProps({
     default: false
   }
 })
-let itemData = ref({})
-const init = () => {
-  itemData.value = (JSON.parse(JSON.stringify(props)))
-}
-init();
-/**
- * 图片的ref,用来移除 onerror 事件
- */
-let imgController = ref()
+
+// 当 errorFlag 为false 时展示出错的图片
+let errorFlag = ref(true)
 let imgOnError = () => {
-  console.log('onerror')
-  itemData.value.url = baseUrl + '/images/avatar.png';
-  imgOnError = () => void (0);
+  errorFlag.value = false
 }
 
 </script>
@@ -48,14 +40,12 @@ let imgOnError = () => {
       size==='s'?'noMargin':''
   ]"
   >
-    <img :src="itemData.url" alt="" class="ice-avatar-image"
+    <img :src="errorFlag ? url: baseUrl+'/images/avatar.png'" class="ice-avatar-image"
          :class="[
-        'size-'+itemData.size,
-        itemData.round?'round':'noRound'
+        'size-'+size,
+        round?'round':'noRound'
     ]"
-         ref="imgController"
-         @error="imgOnError"
-    >
+         @error="imgOnError">
   </div>
 </template>
 

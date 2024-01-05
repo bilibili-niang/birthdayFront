@@ -1,30 +1,33 @@
 <script lang="ts" setup>
-import {ref, Ref} from "vue"
+import {computed, Ref, ref} from "vue"
 import api from "@/utils/api";
-import {baseUrl} from "@/utils/config";
+import {baseUrl, cardColor} from "@/utils/config.js";
 import {resType, userInfo} from "@/components/type/common";
-import iceAvatar from '@/components/common/avatar'
-import iceInput from '@/components/common/iceInput'
+import iceAvatar from '@/components/common/avatar/index.vue'
+import iceInput from '@/components/common/iceInput/index.vue'
 import {onLoad, onPullDownRefresh} from "@dcloudio/uni-app"
 import customPopup from "@/components/common/customPopup/index.vue";
 
-let data: Ref<userInfo> = ref({
-  id: '',
+let data: Ref<userInfo> = ref({});
+/*ref({
+  id: 0,
   randomId: '',
   name: '',
   password: '',
-  avatar: '',
+  avatar: '/images/avatars/defaultAvatar.png',
   sex: '',
   createdAt: '',
   updatedAt: '',
-  iat: '',
-  exp: ''
-})
+  iat: 0,
+  exp: 0
+})*/
 
 const init = async () => {
   await api.loginByToken()
       .then(res => {
         if (res.success) {
+          console.log("res.result.avatar:")
+          console.log(res.result.avatar)
           data.value = res.result
         }
       })
@@ -50,6 +53,7 @@ const checkAvatar = () => {
     urls: imgsArray
   });
 }
+const emits = defineEmits(['update'])
 // 更换头像
 const chooseImage = () => {
   uni.chooseImage({
@@ -165,28 +169,38 @@ onPullDownRefresh(() => {
 })
 // 是否阻塞
 let obstruct = ref(false)
-const saveData = () => {
+const saveData = async () => {
   if (!obstruct) {
     return false;
   } else {
-    submit()
+    await submit()
   }
 }
-const submit = () => {
+const submit = async () => {
   obstruct.value = true
-  console.log(data.value)
-
-
+  await api.updateUserInfo(data.value)
+      .then(res => {
+        console.log("res:")
+        console.log(res)
+      })
+      .catch(e => {
+        console.log("e:")
+        console.log(e)
+      })
 }
+const imageUrl = computed(() => {
+  return data.value?.avatar ? baseUrl + data.value.avatar : ''
+})
 </script>
 
 <template>
   <div class="editMine">
-    <div class="userEditForm ice-column">
+    <div class="userEditForm ice-column" :style="{'backgroundColor': cardColor }">
       <div class="avatarLim ice-row justCenter" @click="avatarClick">
-        <iceAvatar :url="baseUrl+data.avatar"></iceAvatar>
+        <ice-avatar :url="imageUrl"></ice-avatar>
       </div>
-
+      <!-- <img :src="baseUrl+data?.avatar" alt="">-->
+      <!-- <code>avatar:{{ data.avatar }}</code>-->
       <div class="ice-row justBetween">
         <div class="ice-tag">
           昵称:
@@ -271,12 +285,16 @@ const submit = () => {
 
 <style scoped lang="less">
 .editMine{
-  .userEditForm{
-    padding: 0 @padding-l;
-  }
+  padding-left: @padding-n;
+  padding-right: @padding-n;
 
-  /*.operateAvatar{
-    padding: 0 @padding-l;
-  }*/
+  .userEditForm{
+    border-radius: @radio-m;
+    padding: 0 @padding-l @padding-n;
+
+    .avatarLim{
+      padding-top: @padding-n;
+    }
+  }
 }
 </style>

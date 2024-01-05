@@ -38,15 +38,14 @@ export type friendDetailInfo = {
 }
 // 我的用户数据返回数据类型
 export interface userInfo {
-	id: number;
-	randomId: string;
-	name: string;
+	id?: number;
+	randomId?: string;
+	name?: string;
 	phone?: any;
-	password: string;
 	realName?: any;
 	idIdentify?: any;
-	avatar: string;
-	sex: string;
+	avatar?: string;
+	sex?: string;
 	email?: any;
 	vipType?: any;
 	vipLevel?: any;
@@ -57,8 +56,8 @@ export interface userInfo {
 	regSource?: any;
 	birthday?: any;
 	lunaBirthday?: any;
-	createdAt: string;
-	updatedAt: string;
-	iat: number;
-	exp: number;
+	createdAt?: string;
+	updatedAt?: string;
+	iat?: number;
+	exp?: number;
 }
