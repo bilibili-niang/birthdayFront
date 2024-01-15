@@ -33,12 +33,12 @@ import {useMemberStore} from "@/stores";
 import {onPullDownRefresh} from "@dcloudio/uni-app";
 import connectionUs from './components/connectionUs/index.vue'
 
+
+let code = ref('')
 /**
  * 存储用户信息
  */
 let userInfo = ref(null)
-
-let code = ref('')
 const store = useMemberStore()
 
 const login = () => {
@@ -73,8 +73,6 @@ const login = () => {
 
 const getUserInfo = async () => {
   const token: string = uni.getStorageSync("token");
-  console.log("token:")
-  console.log(token)
 
   if (!token) {
     uni.showToast({

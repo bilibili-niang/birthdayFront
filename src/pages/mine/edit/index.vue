@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {computed, Ref, ref} from "vue"
+import {computed, ref, Ref} from "vue"
 import api from "@/utils/api";
 import {baseUrl, cardColor} from "@/utils/config.js";
 import {resType, userInfo} from "@/components/type/common";
@@ -7,6 +7,7 @@ import iceAvatar from '@/components/common/avatar/index.vue'
 import iceInput from '@/components/common/iceInput/index.vue'
 import {onLoad, onPullDownRefresh} from "@dcloudio/uni-app"
 import customPopup from "@/components/common/customPopup/index.vue";
+import {useMemberStore} from "@/stores";
 
 let data: Ref<userInfo> = ref({});
 /*ref({
@@ -26,8 +27,7 @@ const init = async () => {
   await api.loginByToken()
       .then(res => {
         if (res.success) {
-          console.log("res.result.avatar:")
-          console.log(res.result.avatar)
+          console.log(res.result)
           data.value = res.result
         }
       })
@@ -91,15 +91,9 @@ const chooseImage = () => {
             console.log(err)
           }
         });
-
-
       }
-
-
     }
-
   })
-
 }
 
 init()
@@ -176,21 +170,46 @@ const saveData = async () => {
     await submit()
   }
 }
+
+const store = useMemberStore()
+
+const getUserInfo = async () => {
+  const token: string = uni.getStorageSync("token");
+
+  if (!token) {
+    uni.showToast({
+      duration: 1300,
+      icon: 'none',
+      title: '当前没有用户登录'
+    })
+    uni.stopPullDownRefresh();
+    return false
+  } else {
+    await api.loginByToken(token)
+        .then(res => {
+          store.setProfile(res.result);
+          data.value = res.result
+        })
+    uni.stopPullDownRefresh();
+  }
+}
 const submit = async () => {
   obstruct.value = true
   await api.updateUserInfo(data.value)
       .then(res => {
-        console.log("res:")
-        console.log(res)
-      })
-      .catch(e => {
-        console.log("e:")
-        console.log(e)
+        uni.showToast({
+          duration: 1300,
+          icon: res?.success ? 'success' : 'none',
+          title: res?.message + ''
+        })
+        // 重新获取用户数据
+        getUserInfo();
       })
 }
 const imageUrl = computed(() => {
   return data.value?.avatar ? baseUrl + data.value.avatar : ''
 })
+
 </script>
 
 <template>
