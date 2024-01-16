@@ -49,13 +49,13 @@ import {useMemberStore} from "@/stores";
 import Add from "./components/add/index.vue";
 import emptyData from '@/components/common/emptyData/index.vue'
 import friendCard from './components/friendCard/index.vue'
-import {baseUrl, cardBorderColor, cardColor} from "@/utils/config";
+import {baseUrl, cardColor} from "@/utils/config";
 
 let loopItem = ref<any>([])
 
 const content = ref('')
 
-// 下拉触发获取随机文章
+// 下拉重新获取联系人列表
 onPullDownRefresh(() => {
   getPeopleList();
 })
@@ -124,8 +124,10 @@ onShow(async () => {
 const getPeopleList = async () => {
   await api.getPeopleList()
       .then(res => {
-        uni.stopPullDownRefresh();
         userList.value = res.result
+        console.log("res.result:")
+        console.log(res.result)
+        uni.stopPullDownRefresh();
       })
 
 }

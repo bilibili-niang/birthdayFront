@@ -44,7 +44,7 @@ const submit = async () => {
       </div>
     </div>
     <!--从上到下的弹窗-->
-    <customPopup ref="customPopupRef" height="70vh">
+    <customPopup ref="customPopupRef" height="45vh">
       <div class="ice-row justBetween">
         <div class="ice-tag">通过邮箱?</div>
         <div class="ice-text">

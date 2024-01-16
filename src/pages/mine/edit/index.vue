@@ -9,25 +9,12 @@ import {onLoad, onPullDownRefresh} from "@dcloudio/uni-app"
 import customPopup from "@/components/common/customPopup/index.vue";
 import {useMemberStore} from "@/stores";
 
-let data: Ref<userInfo> = ref({});
-/*ref({
-  id: 0,
-  randomId: '',
-  name: '',
-  password: '',
-  avatar: '/images/avatars/defaultAvatar.png',
-  sex: '',
-  createdAt: '',
-  updatedAt: '',
-  iat: 0,
-  exp: 0
-})*/
+let data: Ref<userInfo> = ref({})
 
 const init = async () => {
   await api.loginByToken()
       .then(res => {
         if (res.success) {
-          console.log(res.result)
           data.value = res.result
         }
       })
@@ -209,6 +196,15 @@ const submit = async () => {
 const imageUrl = computed(() => {
   return data.value?.avatar ? baseUrl + data.value.avatar : ''
 })
+// 打开日历
+let calendar = ref();
+const openCalendar = () => {
+  calendar.value.open()
+}
+// 生日弹窗的确认
+const calendarConfirm = (value) => {
+  console.log(value)
+}
 
 </script>
 
@@ -218,8 +214,6 @@ const imageUrl = computed(() => {
       <div class="avatarLim ice-row justCenter" @click="avatarClick">
         <ice-avatar :url="imageUrl"></ice-avatar>
       </div>
-      <!-- <img :src="baseUrl+data?.avatar" alt="">-->
-      <!-- <code>avatar:{{ data.avatar }}</code>-->
       <div class="ice-row justBetween">
         <div class="ice-tag">
           昵称:
@@ -261,12 +255,12 @@ const imageUrl = computed(() => {
         </div>
       </div>
 
-      <div class="ice-row justBetween">
+      <div class="ice-row justBetween" @click="openCalendar">
         <div class="ice-tag">
           生日:
         </div>
         <div class="lineLeft">
-          {{ data.birthday }}
+          {{ data.birthday || "-" }}
         </div>
       </div>
       <div class="buttomBtns">
@@ -275,6 +269,11 @@ const imageUrl = computed(() => {
         </div>
       </div>
     </div>
+    <uni-calendar ref="calendar"
+                  :insert="false"
+                  :clear-date="true"
+                  lunar
+                  @confirm="calendarConfirm" @close="close"/>
 
     <!--底部的弹窗,头像点击触发-->
     <customPopup ref="customPopupRef" height="40vh">
