@@ -20,8 +20,8 @@
               </div>
             </div>
             <div class="ice-text">
-              下一次生日:
-              {{ getDaysToBirthday(item.cMonth, item.cDay) }}天
+              距离生日:
+              {{ item.distanceDay || '-' }}天
             </div>
             <div class="ice-row">
               <div class="ice-tag">生日:</div>
@@ -41,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from "vue";
+import {ref} from "vue";
 import api from "@/utils/api";
 import {onPullDownRefresh, onReady, onShow} from "@dcloudio/uni-app";
 import dayjs from "dayjs";
@@ -60,6 +60,9 @@ onPullDownRefresh(() => {
   getPeopleList();
 })
 
+onShow(() => {
+  getPeopleList();
+});
 // 分类列表
 const classifyItem = ref<any>([])
 
@@ -124,13 +127,39 @@ onShow(async () => {
 const getPeopleList = async () => {
   await api.getPeopleList()
       .then(res => {
-        userList.value = res.result
-        console.log("res.result:")
-        console.log(res.result)
+        if (!res.result) {
+          return
+        }
+        userList.value = res.result;
+        userList.value.map(item => {
+          item.distanceDay = getDaysToBirthday(item.cMonth, item.cDay)
+        })
+        // 按照生日距离排序
+        userList.value.sort(sortBy('distanceDay', 1))
         uni.stopPullDownRefresh();
       })
-
 }
+
+
+const sortBy = (attr: string, rev: any) => {
+  if (rev == undefined) {
+    rev = 1
+  } else {
+    (rev) ? 1 : -1;
+  }
+  return function (a, b) {
+    a = a[attr];
+    b = b[attr];
+    if (a < b) {
+      return rev * -1
+    }
+    if (a > b) {
+      return rev * 1
+    }
+    return 0;
+  }
+}
+
 // 跳转联系人详情
 const friendDetail = (item: any) => {
   const {friendId = null} = item;
@@ -156,20 +185,12 @@ const addPopupClose = () => {
   userFlag.value = !userFlag.value
 }
 getPeopleList()
-/**
- * 计算距离天数
- */
-const distanceDays = computed(() => {
-  return getDaysToBirthday()
-
-})
 //给出生日的月份和日期，计算还有多少天过生日
 const getDaysToBirthday = (month: number, day: number) => {
   const nowTime: any = new Date();
   const thisYear = nowTime.getFullYear();
   //今年的生日
   const birthday: any = new Date(thisYear, month - 1, day);
-
   //今年生日已过，则计算距离明年生日的天数
   if (birthday < nowTime) {
     birthday.setFullYear(nowTime.getFullYear() + 1);

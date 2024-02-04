@@ -264,9 +264,11 @@ const calendarConfirm = (value) => {
           {{ data.birthday || "-" }}
         </div>
       </div>
-      <div class="buttomBtns">
-        <div class="mainBtn" @click="saveData">
-          保存
+      <div class="ice-row margin-top-s">
+        <div class="buttomBtns">
+          <div class="mainBtn" @click="saveData">
+            保存
+          </div>
         </div>
       </div>
     </div>
