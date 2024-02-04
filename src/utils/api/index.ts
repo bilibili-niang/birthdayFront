@@ -42,6 +42,8 @@ export const http = <T>(options: UniApp.RequestOptions & any) => {
             ...options,
             // 只代表响应成功,并没有判断状态码
             success: (res: any) => {
+                console.log(res)
+
                 if (res.statusCode >= 200 && res.statusCode < 300) {
                     resolve(res.data as Data<T>)
                 } else if (res.statusCode === 401) {

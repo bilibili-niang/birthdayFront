@@ -204,6 +204,7 @@ const openCalendar = () => {
 // 生日弹窗的确认
 const calendarConfirm = (value) => {
   console.log(value)
+  data.value.birthday = value.fulldate
 }
 
 </script>
