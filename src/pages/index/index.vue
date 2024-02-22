@@ -3,9 +3,12 @@
     <!--展示联系人生日列表-->
     <view class="description" v-if="userFlag">
       <view class="itemLim">
-        <div class="ice-row white">
+        <div class="ice-row white justBetween">
           <div class="ice-text">
             联系人列表
+          </div>
+          <div class="ice-text">
+            {{userList.length}}/10
           </div>
         </div>
         <view class="item" v-for="(item,index) in userList" :key="index" @click="friendDetail(item)">

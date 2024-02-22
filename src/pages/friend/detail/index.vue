@@ -6,6 +6,8 @@ import api from "@/utils/api";
 import emptyData from "@/components/common/emptyData"
 import friendDetail from "./components/friendDetail/index.vue"
 import {cardColor} from "@/utils/config";
+import customPopup from "@/components/common/customPopup/index.vue";
+
 
 let friendId: Ref<String> = ref('')
 onLoad((data: any) => {
@@ -58,6 +60,13 @@ const changeMode = () => {
 // 动画
 let ani = ref()
 
+
+let customPopupRef = ref()
+// 消息推送弹窗
+const messagePushAlert = () => {
+  customPopupRef.value.show();
+}
+
 </script>
 
 <template>
@@ -65,7 +74,8 @@ let ani = ref()
     <emptyData v-if="!data"></emptyData>
     <div class="ice-column friendLim" v-if="data">
       <uni-transition ref="ani" :mode-class="['fade']" :duration="900" show>
-        <friendDetail :item="data[0]?data[0]:data" :bacColor="cardColor" timingFunction="ease" :mode="mode" @update="init"></friendDetail>
+        <friendDetail :item="data[0]?data[0]:data" :bacColor="cardColor" timingFunction="ease" :mode="mode"
+                      @update="init"></friendDetail>
       </uni-transition>
 
       <div class="operate ice-column">
@@ -74,20 +84,32 @@ let ani = ref()
             <div class="mainBtn" @click="changeMode()">
               {{ mode === 'detail' ? '编辑' : '取消' }}
             </div>
+            <!--
             <div class="verticalBlock"></div>
-            <div class="mainBtn danger">
-              删除
-            </div>
+           <div class="mainBtn danger">
+                          删除
+                        </div>-->
             <div class="verticalBlock"></div>
             <div class="mainBtn">
               分享
             </div>
+            <div class="verticalBlock"></div>
+            <div class="mainBtn" @click="messagePushAlert">
+              消息推送
+            </div>
+
+
           </div>
+
         </uni-section>
       </div>
 
     </div>
 
+    <!--消息推送的弹窗-->
+
+    <customPopup ref="customPopupRef" height="70vh">
+    </customPopup>
   </div>
 
 </template>

@@ -231,7 +231,7 @@ init()
           手机号:
         </div>
         <div class="lineLeft">
-          <ice-input v-model="data.phone" disable></ice-input>
+          <ice-input v-model="data.phone" :disable="mode==='detail'"></ice-input>
         </div>
       </div>
     </div>
